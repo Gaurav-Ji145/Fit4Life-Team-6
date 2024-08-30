@@ -160,19 +160,22 @@
     flex-direction: row;
     }
     .sidebar {
-    width: 260px;
-    background-color: #f0f0f0;
-    padding: 10px;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-    overflow-y: auto;
-    height: 100%;
+        width: 260px;
+        background-color: #f0f0f0;
+        padding: 10px;
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+        overflow-y: auto;
+        max-height: calc(100vh - 150px); /* Fixed height with scrolling */
+        position: sticky;
+        top: 0; /* Keep the sidebar fixed while scrolling */
+        height: 100%; /* Ensure it spans the full height */
     }
     .main-content {
-    flex: 1;
-    padding: 10px;
-    margin-left: 20px;
-    display: flex;
-    flex-direction: column;
+        flex: 1;
+        padding: 10px;
+        margin-left: 20px;
+        display: flex;
+        flex-direction: column;
     }
    /* General tab content styling */
 .tab-content {
@@ -250,8 +253,11 @@
     height: 400px; 
 }
 .instructions {
-    padding: 20px;
-    background-color: #f9f9f9; /* Light background color */
+    margin-top: 10px;
+    background-color: #f8f9fa;
+    padding: 10px;
+    border-radius: 5px;
+    width: 100%; /* Ensure full width */
 }
 
 .instructions-container {
@@ -313,28 +319,30 @@
     text-decoration: none;
     cursor: pointer;
 }
+/* Ensure full width for timer and instructions */
 #timer-container {
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
     margin: 10px 0;
 }
+
 #timer {
     font-size: 20px;
     color: #333;
-    margin-right: 20px; /* Space between timer and button */
-    width: 80px;  /* Adjust the width for the circle */
-    height: 80px; /* Adjust the height for the circle */
-    border-radius: 50%; /* Make it a circle */
-    border: 5px solid #ff7300; /* Border color matching your theme */
+    margin-right: 20px;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 5px solid #ff7300;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #fff; /* Background inside the circle */
+    background-color: #fff;
 }
 
 button.start {
-    display: block;
     width: 150px;
     padding: 10px;
     background-color: #888;
@@ -348,4 +356,18 @@ button.start {
 
 button.start:hover {
     background-color: #ff7300;
+}
+
+/* Scrollbar customization (optional) */
+.sidebar::-webkit-scrollbar {
+    width: 8px;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+    background-color: #ff7300;
+    border-radius: 5px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+    background-color: #f0f0f0;
 }

@@ -196,7 +196,7 @@ function submitLoginDetails() {
 }
 
 function redirectToIndex() {
-    window.location.href = 'index.html';
+    window.location.href = 'index';
 }
 
 const togglePassword = document.querySelector('#togglePassword');

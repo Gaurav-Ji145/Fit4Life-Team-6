@@ -423,16 +423,23 @@ document.addEventListener('DOMContentLoaded', () => {
     populateSidebar(videoType);
     handleTabSwitching();
 });
+
 document.addEventListener('DOMContentLoaded', function () {
     const startButton = document.getElementById('start-button');
     const animationVideo = document.getElementById('animation-video');
     const musclesVideo = document.getElementById('muscles-video');
     const timerElement = document.getElementById('timer');
-    
+
     let videoStartTime = null;
     let isPlaying = false;
     let countdownInterval;
     let timeElapsed = 0; // Start time at 0
+
+    // Remove autoplay and hide controls initially
+    animationVideo.removeAttribute('autoplay');
+    musclesVideo.removeAttribute('autoplay');
+    animationVideo.controls = false;
+    musclesVideo.controls = false;
 
     startButton.addEventListener('click', function () {
         let currentVideo = getCurrentVideo();
@@ -446,27 +453,27 @@ document.addEventListener('DOMContentLoaded', function () {
                 saveWorkoutHistory(document.getElementById('video-title').textContent, duration);
                 startButton.textContent = 'Start';
                 isPlaying = false;
-                currentVideo.classList.remove('hide-controls');
                 clearInterval(countdownInterval); // Stop the timer
+                currentVideo.controls = true; // Show controls when stopped
             }
         } else {
             // Start the video, timer, and tracking
             if (currentVideo) {
-                currentVideo.style.display = 'block'; // Ensure the video is visible
                 currentVideo.play().catch(error => {
                     console.error('Error playing video:', error);
                 });
                 videoStartTime = new Date();
                 startButton.textContent = 'Stop';
                 isPlaying = true;
-                currentVideo.classList.add('hide-controls');
                 startTimer(); // Start the timer
+                currentVideo.controls = false; // Hide controls when playing
             }
         }
     });
 
     function getCurrentVideo() {
-        return animationVideo.style.display === 'block' ? animationVideo : musclesVideo;
+        // Return the currently visible video element
+        return animationVideo.style.display !== 'none' ? animationVideo : musclesVideo;
     }
 
     function saveWorkoutHistory(videoTitle, duration) {
