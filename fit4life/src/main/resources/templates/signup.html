@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,8 +11,21 @@
     />
     <link rel="stylesheet" href="css/login.css">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://unpkg.com/sweetalert/dist/sweetalert.css">
+    <style>
+.gender-selection select {
+    width: 90%; 
+    margin-left: 10px;
+    padding: 10px; 
+    border-radius: 5px; 
+    border: 1px solid #ccc;
+    font-size: 16px;
+    color: #333;
+}
+    </style>
 </head>
 <body>
+<input type="hidden" id="status" value="<%=request.getAttribute("status") %>">
     <div class="container">
         <div class="close-button" onclick="redirectToIndex()">×</div>
         <div class="login-link">
@@ -24,7 +37,9 @@
             <p class="primary-bg-text">To keep track of your dashboard, please log in with your personal info.</p>
             <a href="login" class="loginbtn">Login</a>
         </div>
-        <form class="signup-form-container">
+
+        <!-- Add an ID to the form to make it selectable in jQuery -->
+        <form id="register-form" class="signup-form-container" action="/signup" method="post">
             <p class="big-heading">Create Account</p>
             <br><br><br>
 
@@ -60,16 +75,15 @@
                         <div class="text-fields dob">
                             <input type="date" name="dob" id="dob">
                         </div>
-                        <div class="gender-selection">
-                            <p class="fields-heading">Gender :</p>
-                            <label for="male">
-                                
-                                <input type="radio" name="gender" id="male">Male
-                            </label>
-                            <label for="female">
-                                <input type="radio" name="gender" id="female">Female
-                            </label>
-                        </div>
+                          <div class="text-fields gender-selection">
+        <p class="fields-heading">Gender :</p>
+        <select name="gender" id="gender">
+            <option value="" disabled selected>Select your gender</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+        </select>
+    </div>
                     </div>
                     <div class="pagination-btns">
                         <input type="button" value="Next" class="nextPage stagebtn1b" onclick="stage1to2()">
@@ -134,11 +148,28 @@
         </form>
     </div>
 
-   
-   
+    <script src="https://unpkg.com/jquery@3.6.0/dist/jquery.min.js"></script>
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="js/script.js"></script>
     
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#register-form').on('submit', function(event) {
+                event.preventDefault(); // Prevent default form submission
 
+                // Perform validation here if needed
+                swal({
+                    title: "Congrats",
+                    text: "You have successfully registered!",
+                    icon: "success",
+                    button: "OK",
+                }).then(function() {
+                    // Submit the form after showing the SweetAlert
+                    $('#register-form')[0].submit();
+                });
+            });
+        });
+    </script>
 </body>
 </html>

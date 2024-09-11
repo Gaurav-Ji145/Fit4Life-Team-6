@@ -18,13 +18,15 @@ function validateStage1() {
     let fname = document.getElementById('fname').value;
     let lname = document.getElementById('lname').value;
     let dob = document.getElementById('dob').value;
-    let gender = document.querySelector('input[name="gender"]:checked');
+    let gender = document.getElementById('gender').value; // Updated for dropdown
 
-    if (!fname || !lname || !dob || !gender) {
+    // Check for empty fields
+    if (!fname || !lname || !dob || gender === "") {
         alert('Please fill out all fields in Stage 1');
         return false;
     }
 
+    // Check if names contain only letters
     if (!/^[A-Za-z]+$/.test(fname)) {
         alert('First name should only contain letters');
         return false;
@@ -36,7 +38,6 @@ function validateStage1() {
 
     return true;
 }
-
 function validateStage2() {
     let phone = document.getElementById('phone').value.trim();
     let email = document.getElementById('email').value.trim();
@@ -128,10 +129,10 @@ function stage3to2() {
 }
 
 document.querySelector('form').addEventListener('submit', function(event) {
-    event.preventDefault();
-    if (validateStage3()) {
-        window.location.href = 'login';
+    if (!validateStage3()) {
+        event.preventDefault(); // Prevent form submission if validation fails
     }
+    // Otherwise, the form will submit and data will be sent to the backend
 });
 
 function showPasswordValidation() {
@@ -167,11 +168,14 @@ function validatePassword() {
     }
 }
 
-function submitLoginDetails() {
-    var email = document.getElementById('email').value;
-    var password = document.getElementById('password').value;
-    var errorMessage = '';
+/*function submitLoginDetails(event) {
+    event.preventDefault(); // Prevent the default form submission
+    
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    let errorMessage = '';
 
+    // Basic validations
     if (!email) {
         errorMessage += 'Please enter your email.\n';
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
@@ -186,15 +190,35 @@ function submitLoginDetails() {
 
     if (errorMessage) {
         alert(errorMessage.trim());
-    } else {
-        alert('Login successful!');
-        localStorage.setItem('isLoggedIn', 'true');
-        const urlParams = new URLSearchParams(window.location.search);
-        const redirectUrl = urlParams.get('redirect') || 'index';
-        window.location.href = redirectUrl;
+        return; // Stop further processing if there are validation errors
     }
-}
 
+    // Prepare form data
+    const formData = new FormData();
+    formData.append('email', email);
+    formData.append('password', password);
+
+    // Send data to server
+    fetch('login', {
+        method: 'POST',
+        body: formData
+    }).then(response => response.text())
+      .then(data => {
+          if (data.includes('Invalid email or password')) {
+              alert('Invalid email or password');
+          } else {
+              alert('Login successful!');
+              localStorage.setItem('isLoggedIn', 'true');
+              // Redirect to the appropriate page
+              const urlParams = new URLSearchParams(window.location.search);
+              const redirectUrl = urlParams.get('redirect') || 'index';
+              window.location.href = redirectUrl;
+          }
+      }).catch(error => {
+          console.error('Error:', error);
+      });
+}
+*/
 function redirectToIndex() {
     window.location.href = 'index';
 }
@@ -218,9 +242,5 @@ toggleConfirmPassword.addEventListener('click', function () {
     this.classList.toggle('bx-show');
     this.classList.toggle('bx-hide');
 });
-
-
-
-
 
 

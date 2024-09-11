@@ -118,7 +118,7 @@
                 <div class="video-overlay">Play Video</div>
             </div>
             <div class="read-more">
-                <button class="read-more-btn" onclick="readMore('Jumping Jacks', 'abs-beginner')">Read More</button>
+                <button class="read-more-btn" onclick="readMore('Abdominal Crunches', 'Abs Beginner','Beginner')">Read More</button>
             </div>
         </div>
         </div>
@@ -161,7 +161,7 @@
                 <div class="video-overlay">Play Video</div>
             </div>
             <div class="read-more">
-                <button class="read-more-btn" onclick="readMore('Jumping Jacks', 'chest-beginner')">Read More</button>
+                <button class="read-more-btn" onclick="readMore('Jumping Jacks', 'Chest Beginner','Beginner')">Read More</button>
             </div>
         </div>
      </div>
@@ -204,7 +204,7 @@
                 <div class="video-overlay">Play Video</div>
             </div>
             <div class="read-more">
-                <button class="read-more-btn" onclick="readMore('Arm Raises', 'arm-beginner')">Read More</button>
+                <button class="read-more-btn" onclick="readMore('Leg Raises', 'Arm Beginner','Beginner')">Read More</button>
             </div>
         </div>
         </div>
@@ -247,7 +247,7 @@
                 <div class="video-overlay">Play Video</div>
             </div>
             <div class="read-more">
-                <button class="read-more-btn" onclick="readMore('Side Hop', 'leg-beginner')">Read More</button>
+                <button class="read-more-btn" onclick="readMore('Side Hop', 'Leg Beginner','Beginner')">Read More</button>
             </div>
         </div>
         </div>
@@ -290,7 +290,7 @@
                 <div class="video-overlay">Play Video</div>
             </div>
             <div class="read-more">
-                <button class="read-more-btn" onclick="readMore('Jumping Jacks', 'back-beginner')">Read More</button>
+                <button class="read-more-btn" onclick="readMore('Jumping Jacks', 'Back Beginner','Beginner')">Read More</button>
             </div>
         </div>
         </div>
@@ -791,14 +791,14 @@
          </div>
          </footer>
         <!-- Footer End -->
-        <!-- Modal for login prompt -->
-        <div id="loginPromptModal" class="modal">
-      <div class="modal-content">
-        <span class="close">&times;</span>
-        <p>Please log in to access the videos.</p>
-        <button id="loginNowBtn" class="btn btn-primary">Login Now</button>
-      </div>
+       <div id="loginPromptModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <p>Please log in to access the videos.</p>
+    <button id="loginNowBtn" class="btn btn-primary">Login Now</button>
+  </div>
 </div>
+
 
 <!-- Back to Top -->
 <a href="#" class="btn btn-dark py-3 fs-4 back-to-top"><i class="bi bi-arrow-up"></i></a>
@@ -830,87 +830,28 @@
         document.getElementById(level + '-workout').classList.add('active');
     }
     
-    function checkLoginState() {
-        const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-        const authButton = document.getElementById('authButton');
-        const dashboardLink = document.querySelector('.nav-item.nav-link[href="Dashboard/index.html"]');
-    
-        if (isLoggedIn) {
-            authButton.textContent = 'Logout';
-            authButton.onclick = function() {
-                localStorage.removeItem('isLoggedIn');
-                window.location.href = "index";
-            };
-            if (dashboardLink) {
-                dashboardLink.style.display = 'inline'; // Show the dashboard link
-            }
-        } else {
-            authButton.textContent = 'Login';
-            authButton.onclick = function() {
-                window.location.href = "login";
-            };
-            if (dashboardLink) {
-                dashboardLink.style.display = 'none'; // Hide the dashboard link
+        function readMore(title, type, category) {
+            const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+            if (isLoggedIn) {
+                window.location.href = `video?title=${encodeURIComponent(title)}&type=${encodeURIComponent(type)}&category=${encodeURIComponent(category)}`;
+            } else {
+                // Set data attributes for the login button
+                const loginNowBtn = document.getElementById('loginNowBtn');
+                loginNowBtn.setAttribute('data-title', title);
+                loginNowBtn.setAttribute('data-type', type);
+                loginNowBtn.setAttribute('data-category', category);
+                document.getElementById('loginPromptModal').style.display = 'block';
             }
         }
-    }
-    
-    document.addEventListener('DOMContentLoaded', checkLoginState);
-    document.addEventListener('DOMContentLoaded', function() {
-        const isLoggedIn = localStorage.getItem('isLoggedIn');
-        const username = localStorage.getItem('username');
-        const loginDropdown = document.getElementById('loginDropdown');
-        const dropdownMenu = document.getElementById('dropdownMenu');
 
-        if (isLoggedIn === 'true' && username) {
-            loginDropdown.textContent = username;
-            dropdownMenu.innerHTML = '<a href="#" class="dropdown-item" id="logout">Logout</a>';
+        loginNowBtn.onclick = function() {
+            const title = encodeURIComponent(loginNowBtn.getAttribute('data-title'));
+            const type = encodeURIComponent(loginNowBtn.getAttribute('data-type'));
+            const category = encodeURIComponent(loginNowBtn.getAttribute('data-category'));
+            const redirectUrl = `video?title=${title}&type=${type}&category=${category}`;
+            window.location.href = `login?redirect=${encodeURIComponent(redirectUrl)}`;
+        };
 
-            document.getElementById('logout').addEventListener('click', function() {
-                localStorage.removeItem('isLoggedIn');
-                localStorage.removeItem('username');
-                window.location.href = 'index';
-            });
-        }
-    });
-    function readMore(title, type) {
-        const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-        if (isLoggedIn) {
-            console.log(`Redirecting to video with title=${title} and type=${type}`);
-            window.location.href = `video?title=${encodeURIComponent(title)}&type=${encodeURIComponent(type)}`;
-        } else {
-            // Set data attributes for the login button
-            const loginNowBtn = document.getElementById('loginNowBtn');
-            loginNowBtn.setAttribute('data-title', title);
-            loginNowBtn.setAttribute('data-type', type);
-            // Show login prompt modal
-            document.getElementById('loginPromptModal').style.display = 'block';
-        }
-    }
-    
-    // Modal functionality
-    const modal = document.getElementById('loginPromptModal');
-    const closeModal = document.getElementsByClassName('close')[0];
-    const loginNowBtn = document.getElementById('loginNowBtn');
-    
-    closeModal.onclick = function() {
-        modal.style.display = 'none';
-    }
-    
-    loginNowBtn.onclick = function() {
-    const title = encodeURIComponent(loginNowBtn.getAttribute('data-title'));
-    const type = encodeURIComponent(loginNowBtn.getAttribute('data-type'));
-    // Construct the URL correctly
-    const redirectUrl = `video?title=${title}&type=${type}`;
-    // Redirect to login page with the redirect URL as a parameter
-    window.location.href = `login?redirect=${encodeURIComponent(redirectUrl)}`;
-}
-
-    window.onclick = function(event) {
-        if (event.target == modal) {
-            modal.style.display = 'none';
-        }
-    }
     </script>
 </body>
 </html>

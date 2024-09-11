@@ -7,8 +7,10 @@
     <link rel="icon" href="https://res.cloudinary.com/deup6t83x/image/upload/v1721236251/logo_pctu2u.png" type="image/x-icon">
     <link rel="stylesheet" href="css/login.css">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://unpkg.com/sweetalert/dist/sweetalert.css">
 </head>
 <body>
+	<input type="hidden" id="status" value="<%=request.getAttribute("status") %>">
     <div class="container">
         <div class="close-button" onclick="redirectToIndex()">×</div>
         <div class="login-link">
@@ -20,7 +22,7 @@
             <p class="primary-bg-text">To keep track of your dashboard, please login with your personal info.</p>
             <a href="signup" class="loginbtn">Register now</a>
         </div>
-        <form id="loginForm" class="signup-form-container">
+        <form id="loginForm" action="/login" method="post" class="signup-form-container">
             <p class="big-heading">Login to your account</p>
             <br><br><br>
             <div class="login-form-contents">
@@ -38,12 +40,25 @@
                 
                 <br>
             </div>
-            <input type="button" value="Login" onclick="submitLoginDetails()" class="nextPage">
+            <input type="submit" value="Login"  class="nextPage">
         </form>
     </div>
 
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
-    <script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+
+
+<script type="text/javascript">
+	var status = document.getElementById("status").value;
+	if (status == "failed") {
+	    swal("Sorry", "Wrong Username and Password", "error");
+	}
+
+        function redirectToIndex() {
+            window.location.href = 'index';
+        }
         // Toggle password visibility
         const togglePassword = document.querySelector('#togglePassword');
         const password = document.querySelector('#password');
@@ -56,37 +71,8 @@
         });
 
         // Login form functionality
-        function submitLoginDetails() {
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
-    let errorMessage = '';
+       
 
-    if (!email) {
-        errorMessage += 'Please enter your email.\n';
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        errorMessage += 'Please enter a valid email address.\n';
-    }
-
-    if (!password) {
-        errorMessage += 'Please enter your password.\n';
-    } else if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,12}$/.test(password)) {
-        errorMessage += 'Password must be 8-12 characters long, include at least one uppercase letter, one lowercase letter, one number, and one special character.\n';
-    }
-
-    if (errorMessage) {
-        alert(errorMessage.trim());
-    } else {
-        // Simulating successful login and username retrieval
-        const username = email.split('@')[0]; // Example: extract username from email
-        localStorage.setItem('isLoggedIn', 'true');
-        localStorage.setItem('username', username);
-
-        alert('Login successful!');
-        const urlParams = new URLSearchParams(window.location.search);
-        const redirectUrl = urlParams.get('redirect') || 'index';
-        window.location.href = redirectUrl;
-    }
-}
     </script>
 </body>
 </html>

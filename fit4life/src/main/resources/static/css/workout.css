@@ -371,3 +371,10 @@ button.start:hover {
 .sidebar::-webkit-scrollbar-track {
     background-color: #f0f0f0;
 }
+#animation-video {
+    display: none; /* Hidden initially */
+}
+
+#muscles-video {
+    display: none; /* Hidden initially */
+}
