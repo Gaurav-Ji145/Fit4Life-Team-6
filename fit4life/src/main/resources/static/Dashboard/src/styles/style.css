@@ -1112,7 +1112,9 @@ table.dataTable.dtr-inline.collapsed>tbody>tr.parent>td:first-child:before, tabl
 .header-left .brand-logo{
 	max-width: 180px;
 	display: block;
+	
 }
+
 .header-right .brand-logo a{
 	padding: 0px 6px 0px;
 }

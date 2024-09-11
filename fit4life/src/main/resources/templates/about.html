@@ -39,29 +39,30 @@
             </div>
             <div class="col-lg-9">
                 <nav class="navbar navbar-expand-lg bg-dark navbar-dark p-3 p-lg-0 px-lg-5">
-                    <a href="index.html" class="navbar-brand d-block d-lg-none">
-                        <img src="https://res.cloudinary.com/deup6t83x/image/upload/v1721236251/logo_pctu2u.png" alt="Fit4Life Logo" class="img-fluid logo-img">
-                    </a>
-                    <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
-                        <div class="navbar-nav mr-auto py-0">
-                            <a href="index" class="nav-item nav-link">Home</a>
-                            <a href="workout" class="nav-item nav-link">Workout</a>
-                            <a href="Dashboard/index.html" class="nav-item nav-link">Dashboard</a>
-                            <a href="about" class="nav-item nav-link active">About</a>
-                            <a href="contact" class="nav-item nav-link">Contact</a>
-                        </div>
-                        <div class="nav-item dropdown">
-                            <a href="" id="loginDropdown" class="btn btn-primary py-md-3 px-md-5 d-none d-lg-block nav-link dropdown-toggle" data-bs-toggle="dropdown">Login</a>
-                            <div class="dropdown-menu rounded-0 m-0" id="dropdownMenu">
-                                <a href="login" class="dropdown-item">User Login</a>
-                                <a href="admin_login.html" class="dropdown-item">Admin Login</a>
-                            </div>
-                        </div>
-                    </div>
-                </nav>
+			        <a href="index" class="navbar-brand d-block d-lg-none">
+			            <img src="https://res.cloudinary.com/deup6t83x/image/upload/v1721236251/logo_pctu2u.png" alt="Fit4Life Logo" class="img-fluid logo-img">
+			        </a>
+			        <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+			            <span class="navbar-toggler-icon"></span>
+			        </button>
+			        <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+			            <div class="navbar-nav mr-auto py-0">
+			                <a href="index" class="nav-item nav-link">Home</a>
+			                <a href="workout" class="nav-item nav-link">Workout</a>
+			                <a href="userdashboard" class="nav-item nav-link">Dashboard</a>
+			                <a href="about" class="nav-item nav-link active">About</a>
+			                <a href="contact" class="nav-item nav-link">Contact</a>
+			            </div>
+			            <div class="nav-item dropdown">
+			                <a href="#" id="loginDropdown" class="btn btn-primary py-md-3 px-md-5 nav-link dropdown-toggle hidden" data-bs-toggle="dropdown">
+			                    Login
+			                </a>
+			                <div class="dropdown-menu dropdown-menu-end rounded-0 m-0 hidden" id="dropdownMenu">
+			                    <!-- Content will be injected by JavaScript -->
+			                </div>
+			            </div>
+			        </div>
+			    </nav>
             </div>
         </div>
     </div>
@@ -201,56 +202,47 @@
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
     <script>
-        function checkLoginState() {
-            const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-            const dashboardLink = document.querySelector('.nav-item.nav-link[href="Dashboard/index.html"]');
-            const registerButtons = document.querySelectorAll('a[href="/Frontend/signup"]');
-            const contactButtons = document.querySelectorAll('a[href="/Frontend/contact"]');
-            if (dashboardLink) {
-                dashboardLink.style.display = isLoggedIn ? 'inline' : 'none'; // Show or hide the dashboard link
-            } else {
-                console.error('Dashboard link not found');
-            }
-        
-            // Hiding or showing the register buttons based on login state
-            registerButtons.forEach(button => {
-                if (button) {
-                    button.style.display = isLoggedIn ? 'none' : 'inline';
-                } else {
-                    console.error('Register button not found');
-                }
-            });
-        
-            // Hiding or showing the contact buttons based on login state
-            contactButtons.forEach(button => {
-                if (button) {
-                    button.style.display = isLoggedIn ? 'none' : 'inline';
-                } else {
-                    console.error('Contact button not found');
-                }
-            });
-        }
-        
-        // Run the function to check login state on page load
-        document.addEventListener('DOMContentLoaded', checkLoginState);
-    
-        document.addEventListener('DOMContentLoaded', function() {
-            const isLoggedIn = localStorage.getItem('isLoggedIn');
-            const username = localStorage.getItem('username');
-            const loginDropdown = document.getElementById('loginDropdown');
-            const dropdownMenu = document.getElementById('dropdownMenu');
-    
-            if (isLoggedIn === 'true' && username) {
-                loginDropdown.textContent = username;
-                dropdownMenu.innerHTML = '<a href="#" class="dropdown-item" id="logout">Logout</a>';
-    
-                document.getElementById('logout').addEventListener('click', function() {
-                    localStorage.removeItem('isLoggedIn');
-                    localStorage.removeItem('username');
-                    window.location.href = 'index';
-                });
-            }
-        });
+  //Fetch Username From Database
+	document.addEventListener('DOMContentLoaded', function () {
+	    fetch('/api/getSessionAttributes', {
+	        method: 'GET',
+	        headers: {
+	            'Content-Type': 'application/json'
+	        }
+	    })
+	    .then(response => response.json())
+	    .then(data => {
+	        const { isLoggedIn, fname } = data;
+	        const loginButton = document.getElementById('loginDropdown');
+	        const dropdownMenu = document.getElementById('dropdownMenu');
+
+	        if (isLoggedIn && fname) {
+	            // Replace login button text with first name
+	            loginButton.textContent = fname;
+	            loginButton.classList.remove('btn-primary');
+	            loginButton.classList.add('btn-secondary');
+
+	            // Update dropdown to show the logout option
+	            dropdownMenu.innerHTML = `
+	                <a href="/logout" class="dropdown-item" id="logout">Logout</a>
+	            `;
+
+	        } else {
+	            // Show login options if not logged in
+	            loginButton.textContent = 'Login';
+	            dropdownMenu.innerHTML = `
+	                <a href="/login" class="dropdown-item">User Login</a>
+	                <a href="/admin_login" class="dropdown-item">Admin Login</a>`;
+	        }
+
+	        // Remove the hidden class to display the updated button and dropdown
+	        loginButton.classList.remove('hidden');
+	        dropdownMenu.classList.remove('hidden');
+	    })
+	    .catch(error => {
+	        console.error('Error:', error);
+	    });
+	});
     </script>        
         
 </body>

@@ -25,23 +25,23 @@
 			rel="stylesheet"
 		/>
 		<!-- CSS -->
-		<link rel="stylesheet" type="text/css" href="vendors/styles/core.css" />
+		<link rel="stylesheet" type="text/css" href="Dashboard/vendors/styles/core.css" />
 		<link
 			rel="stylesheet"
 			type="text/css"
-			href="vendors/styles/icon-font.min.css"
+			href="Dashboard/vendors/styles/icon-font.min.css"
 		/>
 		<link
 			rel="stylesheet"
 			type="text/css"
-			href="src/plugins/datatables/css/dataTables.bootstrap4.min.css"
+			href="Dashboard/src/plugins/datatables/css/dataTables.bootstrap4.min.css"
 		/>
 		<link
 			rel="stylesheet"
 			type="text/css"
-			href="src/plugins/datatables/css/responsive.bootstrap4.min.css"
+			href="Dashboard/src/plugins/datatables/css/responsive.bootstrap4.min.css"
 		/>
-		<link rel="stylesheet" type="text/css" href="vendors/styles/style.css" />
+		<link rel="stylesheet" type="text/css" href="Dashboard/vendors/styles/style.css" />
 
 		<!-- Global site tag (gtag.js) - Google Analytics -->
 		<script
@@ -82,7 +82,7 @@
 			<div class="pre-loader-box">
 				<div class="loader-logo">
 					
-					<img src="https://res.cloudinary.com/dbzlzmrhc/image/upload/v1718185446/logo_gzw8mq.png" height="150px" width="150px">
+					<img src="https://res.cloudinary.com/deup6t83x/image/upload/v1721236251/logo_pctu2u.png" height="150px" width="150px">
 				</div>
 				<div class="loader-progress" id="progress_div">
 					<div class="bar" id="bar1"></div>
@@ -160,26 +160,33 @@
 			</div>
 			
 			<div class="user-info-dropdown">
-				<div class="dropdown">
-					<a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown">
-						<!-- Image tag removed -->
-						<span class="user-name"></span> <!-- Username will be displayed here -->
-					</a>
-					<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
-						<a id="logoutButton" class="dropdown-item" href="#"><i class="dw dw-logout"></i> Log Out</a>
+					<div class="dropdown">
+						<a
+							class="dropdown-toggle"
+							href="#"
+							role="button"
+							data-toggle="dropdown"
+						>
+							<span class="user-icon">
+								<img src="https://res.cloudinary.com/deup6t83x/image/upload/v1726082990/userpic_uztmom.jpg" alt="" />
+							</span>
+							
+						</a>
+						<div
+							class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
+							<a class="dropdown-item" href="/index"
+								><i class="dw dw-logout"></i> Log Out</a>
+						</div>
 					</div>
 				</div>
-			</div>
-				
-			</div>
 		</div>
 
 
 
 		<div class="left-side-bar">
 			<div class="brand-logo">
-				<a href="/index">
-					<img src="https://res.cloudinary.com/dbzlzmrhc/image/upload/v1718185446/logo_gzw8mq.png"  height="80px" width="80px">
+				<a style="margin-top:13px;">
+					<img src="https://res.cloudinary.com/deup6t83x/image/upload/v1721236251/logo_pctu2u.png"  height="80px" width="80px">
 					
 				</a>
 				
@@ -189,13 +196,13 @@
 					<ul id="accordion-menu">
 						
 						<li>
-							<a href="index.html" class="dropdown-toggle no-arrow">
+							<a href="dashboard" class="dropdown-toggle no-arrow">
 								<span class="micon bi bi-house"></span>
 								<span class="mtext">Dashboard</span>
 							</a>
 						</li>
 						<li>
-							<a href="history.html" class="dropdown-toggle no-arrow">
+							<a href="history" class="dropdown-toggle no-arrow">
 								<span class="micon bi bi-calendar4-week"></span
 								><span class="mtext">Workout History</span>
 							</a>
@@ -208,7 +215,7 @@
 							</a>
 
 							<ul class="submenu">
-								<li><a href="Email & Password Validation/index.html">Reset Password</a></li>
+								<li><a href="reset">Reset Password</a></li>
 							</ul>
 						</li>
 
@@ -225,7 +232,7 @@
 				<div class="card-box pd-20 height-100-p mb-30">
 					<div class="row align-items-center">
 						<div class="col-md-4">
-							<img src="vendors/images/banner-img.png" alt="" />
+							<img src="Dashboard/vendors/images/banner-img.png" alt="" />
 						</div>
 						<div class="col-md-8">
 							<h4 class="font-20 weight-500 mb-10 text-capitalize">
@@ -314,16 +321,16 @@
 		</div>
 		
 		<!-- js -->
-		<script src="vendors/scripts/core.js"></script>
-		<script src="vendors/scripts/script.min.js"></script>
-		<script src="vendors/scripts/process.js"></script>
-		<script src="vendors/scripts/layout-settings.js"></script>
-		<script src="src/plugins/apexcharts/apexcharts.min.js"></script>
-		<script src="src/plugins/datatables/js/jquery.dataTables.min.js"></script>
-		<script src="src/plugins/datatables/js/dataTables.bootstrap4.min.js"></script>
-		<script src="src/plugins/datatables/js/dataTables.responsive.min.js"></script>
-		<script src="src/plugins/datatables/js/responsive.bootstrap4.min.js"></script>
-		<script src="vendors/scripts/dashboard.js"></script>
+		<script src="Dashboard/vendors/scripts/core.js"></script>
+		<script src="Dashboard/vendors/scripts/script.min.js"></script>
+		<script src="Dashboard/vendors/scripts/process.js"></script>
+		<script src="Dashboard/vendors/scripts/layout-settings.js"></script>
+		<script src="Dashboard/src/plugins/apexcharts/apexcharts.min.js"></script>
+		<script src="Dashboard/src/plugins/datatables/js/jquery.dataTables.min.js"></script>
+		<script src="Dashboard/src/plugins/datatables/js/dataTables.bootstrap4.min.js"></script>
+		<script src="Dashboard/src/plugins/datatables/js/dataTables.responsive.min.js"></script>
+		<script src="Dashboard/src/plugins/datatables/js/responsive.bootstrap4.min.js"></script>
+		<script src="Dashboard/vendors/scripts/dashboard.js"></script>
 
 
 		
@@ -360,7 +367,7 @@
 					}
 				} else {
 					// If not logged in, redirect to the login page
-					window.location.href = "login";
+					//window.location.href = "login";
 				}
 			}
 		

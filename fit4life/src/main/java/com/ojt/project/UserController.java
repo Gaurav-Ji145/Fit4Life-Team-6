@@ -1,11 +1,17 @@
 package com.ojt.project;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.ojt.project.entity.User;
 import com.ojt.project.service.UserService;
 
@@ -52,9 +58,20 @@ public class UserController {
         return "video";
     }
     
+ //Dashboard controller location
+    
     @GetMapping("/dashboard")
     public String getdashbordPage() {
         return "dashboard";
+    }
+    @GetMapping("/history")
+    public String gethistoryPage() {
+        return "history";
+    }
+    
+    @GetMapping("/reset")
+    public String getresetPage() {
+        return "reset";
     }
   //Admin Controller Location
 	
@@ -109,25 +126,45 @@ public class UserController {
       }
 
       
+   // Handle login form submission
       @PostMapping("/login")
-      public String loginUser(@ModelAttribute User user, HttpSession session, Model model) {
-          User loggedInUser = userService.findByEmailAndPassword(user.getEmail(), user.getPassword());
-          System.out.println("Logged In User: " + loggedInUser);  // Debugging line
-          if (loggedInUser != null) {
-              // Store user's first name and login status in the session
-              session.setAttribute("fname", loggedInUser.getFname());
-              session.setAttribute("isLoggedIn", true);
+      public String login(@RequestParam String email, 
+                          @RequestParam String password, 
+                          HttpSession session, 
+                          Model model) {
+          // Authenticate the user with email and password
+          User user = userService.authenticate(email, password);
 
-              return "redirect:/index";  // Redirect to the home page after successful login
+          if (user != null) {
+              // If authentication is successful, store user in session
+        	  session.setAttribute("user", user);
+              return "redirect:/index";  // Redirect to the home page
           } else {
-              model.addAttribute("status", "Invalid email or password");
-              return "login";  // Stay on the login page if login fails
+              // If authentication fails, show an error message
+              model.addAttribute("error", "Invalid email or password");
+              return "login";  // Stay on the login page and display the error message
           }
       }
 
+      // Handle user logout
       @GetMapping("/logout")
       public String logout(HttpSession session) {
-          session.invalidate();  // Invalidate the session to log the user out
-          return "redirect:/index";  // Redirect to the homepage after logout
+          // Invalidate the session to log the user out
+          session.invalidate();
+          return "redirect:/index";  // Redirect to the login page after logout
+      }
+      
+      @GetMapping("/api/getSessionAttributes")
+      @ResponseBody
+      public Map<String, Object> getSessionAttributes(HttpSession session) {
+          User user = (User) session.getAttribute("user");
+          Map<String, Object> response = new HashMap<>();
+          if (user != null) {
+              response.put("isLoggedIn", true);
+              response.put("fname", user.getFname());  // Send the first name
+          } else {
+              response.put("isLoggedIn", false);
+          }
+          return response;
       }
   }

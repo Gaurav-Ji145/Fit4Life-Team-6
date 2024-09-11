@@ -5,6 +5,11 @@ const form = document.querySelector("form"),
   passInput = passField.querySelector(".password"),
   cPassField = form.querySelector(".confirm-password"),
   cPassInput = cPassField.querySelector(".cPassword");
+  
+// close button
+function redirectToPage() {
+            window.location.href = "dashboard"; 
+        }
 
 // Email Validtion
 function checkEmail() {
@@ -71,5 +76,7 @@ form.addEventListener("submit", (e) => {
     form.getAttribute(alert("Successful change Password"));
     location.href = form.getAttribute("action");
   }
+  
+  
 });
 

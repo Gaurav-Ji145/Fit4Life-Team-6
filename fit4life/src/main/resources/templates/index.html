@@ -37,31 +37,30 @@
             </div>
             <div class="col-lg-9">
                 <nav class="navbar navbar-expand-lg bg-dark navbar-dark p-3 p-lg-0 px-lg-5">
-                    <a href="/Frontend/index" class="navbar-brand d-block d-lg-none">
-                        <img src="https://res.cloudinary.com/deup6t83x/image/upload/v1721236251/logo_pctu2u.png" alt="Fit4Life Logo" class="img-fluid logo-img">
-                    </a>
-                    <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
-                        <div class="navbar-nav mr-auto py-0">
-                            <a href="index" class="nav-item nav-link active">Home</a>
-                            <a href="workout" class="nav-item nav-link">Workout</a>
-                            <a href="dashboard" class="nav-item nav-link">Dashboard</a>
-                            <a href="about" class="nav-item nav-link">About</a>
-                            <a href="contact" class="nav-item nav-link">Contact</a>
-                        </div>
-                      <div class="nav-item dropdown">
-						    <a href="#" id="loginDropdown" class="btn btn-primary py-md-3 px-md-5 d-none d-lg-block nav-link dropdown-toggle" data-bs-toggle="dropdown">
-						        Login
-						    </a>
-						    <div class="dropdown-menu rounded-0 m-0" id="dropdownMenu">
-						        <a href="login" class="dropdown-item" id="loginLink">User Login</a>
-						        <a href="admin_login" class="dropdown-item">Admin Login</a>
-						    </div>
-						</div>
-                    </div>
-                </nav>
+			        <a href="index" class="navbar-brand d-block d-lg-none">
+			            <img src="https://res.cloudinary.com/deup6t83x/image/upload/v1721236251/logo_pctu2u.png" alt="Fit4Life Logo" class="img-fluid logo-img">
+			        </a>
+			        <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+			            <span class="navbar-toggler-icon"></span>
+			        </button>
+			        <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+			            <div class="navbar-nav mr-auto py-0">
+			                <a href="index" class="nav-item nav-link active">Home</a>
+			                <a href="workout" class="nav-item nav-link">Workout</a>
+			                <a href="userdashboard" class="nav-item nav-link">Dashboard</a>
+			                <a href="about" class="nav-item nav-link">About</a>
+			                <a href="contact" class="nav-item nav-link">Contact</a>
+			            </div>
+			            <div class="nav-item dropdown">
+			                <a href="#" id="loginDropdown" class="btn btn-primary py-md-3 px-md-5 nav-link dropdown-toggle hidden" data-bs-toggle="dropdown">
+			                    Login
+			                </a>
+			                <div class="dropdown-menu dropdown-menu-end rounded-0 m-0 hidden" id="dropdownMenu">
+			                    <!-- Content will be injected by JavaScript -->
+			                </div>
+			            </div>
+			        </div>
+			    </nav>
             </div>
         </div>
     </div>
@@ -78,8 +77,8 @@
                     <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                         <div class="p-3" style="max-width: 900px;">
                             <h1 class="display-2 text-white text-uppercase mb-md-4">Step Into Fitness Transform Your Life</h1>
-                            <a href="/Frontend/signup" class="btn btn-primary py-md-3 px-md-5 me-3">Register</a>
-                            <a href="/Frontend/contact" class="btn btn-light py-md-3 px-md-5">Contact Us</a>
+                            <a href="signup" class="btn btn-primary py-md-3 px-md-5 me-3">Register</a>
+                            <a href="contact" class="btn btn-light py-md-3 px-md-5">Contact Us</a>
                         </div>
                     </div>
                 </div>
@@ -90,8 +89,8 @@
                     <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                         <div class="p-3" style="max-width: 900px;">
                             <h1 class="display-2 text-white text-uppercase mb-md-4">Unleash your potential lead a fit life</h1>
-                            <a href="/Frontend/signup" class="btn btn-primary py-md-3 px-md-5 me-3">Register</a>
-                            <a href="/Frontend/contact" class="btn btn-light py-md-3 px-md-5">Contact Us</a>
+                            <a href="signup" class="btn btn-primary py-md-3 px-md-5 me-3">Register</a>
+                            <a href="contact" class="btn btn-light py-md-3 px-md-5">Contact Us</a>
                         </div>
                     </div>
                 </div>
@@ -102,8 +101,8 @@
                     <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                         <div class="p-3" style="max-width: 900px;">
                             <h1 class="display-2 text-white text-uppercase mb-md-4">Your best self is just a login away. Start now!</h1>
-                            <a href="/Frontend/signup" class="btn btn-primary py-md-3 px-md-5 me-3">Register</a>
-                            <a href="/Frontend/contact" class="btn btn-light py-md-3 px-md-5">Contact Us</a>
+                            <a href="signup" class="btn btn-primary py-md-3 px-md-5 me-3">Register</a>
+                            <a href="contact" class="btn btn-light py-md-3 px-md-5">Contact Us</a>
                         </div>
                     </div>
                 </div>
@@ -254,28 +253,47 @@
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
     <script>
-	    document.addEventListener('DOMContentLoaded', function() {
-	   		alert("Hello");
-	    	// Fetch session attributes from server-side rendering
-	        const isLoggedIn = '<%= session.getAttribute("isLoggedIn") != null ? "true" : "false" %>';
-	        const fname = '<%= session.getAttribute("fname") != null ? session.getAttribute("fname") : "" %>';
-
-	        // Get the elements
-	        const loginDropdown = document.getElementById('loginDropdown');
+  //Fetch Username From Database
+	document.addEventListener('DOMContentLoaded', function () {
+	    fetch('/api/getSessionAttributes', {
+	        method: 'GET',
+	        headers: {
+	            'Content-Type': 'application/json'
+	        }
+	    })
+	    .then(response => response.json())
+	    .then(data => {
+	        const { isLoggedIn, fname } = data;
+	        const loginButton = document.getElementById('loginDropdown');
 	        const dropdownMenu = document.getElementById('dropdownMenu');
 
-	        // Update the dropdown based on login status
-	        if (isLoggedIn === 'true' && fname !== "") {
-	            // User is logged in, show their first name and the logout option
-	            loginDropdown.textContent = fname;  // Set the dropdown text to the user's first name
-	            dropdownMenu.innerHTML = '<a href="logout" class="dropdown-item" id="logout">Logout</a>';  // Set logout link
+	        if (isLoggedIn && fname) {
+	            // Replace login button text with first name
+	            loginButton.textContent = fname;
+	            loginButton.classList.remove('btn-primary');
+	            loginButton.classList.add('btn-secondary');
 
-	            // Add event listener for logout
-	            document.getElementById('logout').addEventListener('click', function() {
-	                window.location.href = 'logout';  // Redirect to the logout endpoint
-	            });
+	            // Update dropdown to show the logout option
+	            dropdownMenu.innerHTML = `
+	                <a href="/logout" class="dropdown-item" id="logout">Logout</a>
+	            `;
+
+	        } else {
+	            // Show login options if not logged in
+	            loginButton.textContent = 'Login';
+	            dropdownMenu.innerHTML = `
+	                <a href="/login" class="dropdown-item">User Login</a>
+	                <a href="/admin_login" class="dropdown-item">Admin Login</a>`;
 	        }
+
+	        // Remove the hidden class to display the updated button and dropdown
+	        loginButton.classList.remove('hidden');
+	        dropdownMenu.classList.remove('hidden');
+	    })
+	    .catch(error => {
+	        console.error('Error:', error);
 	    });
+	});
 	</script>
 </body>
 </html>

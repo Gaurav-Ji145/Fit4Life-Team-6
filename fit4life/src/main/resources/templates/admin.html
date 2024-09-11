@@ -264,7 +264,7 @@
                     </a>
                     <ul class="dropdown-menu dropdown-user animated fadeIn">
                       <li>
-                        <a class="dropdown-item" href="#">Logout</a>
+                        <a class="dropdown-item"  onclick="logout()" href="#">Logout</a>
                       </li>
                     </ul>
                   </li>
@@ -504,5 +504,12 @@
     <!-- Kaiadmin JS -->
     <script src="Admin/assets/js/kaiadmin.min.js"></script>
     
-  </body>
+    <!-- Logout Script -->
+    <script>
+    function logout() {
+        localStorage.removeItem('authToken'); 
+        window.location.href = 'index'; 
+    }
+</script>
+</body>
 </html>
