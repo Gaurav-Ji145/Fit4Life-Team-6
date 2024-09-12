@@ -12,17 +12,6 @@
     <link rel="stylesheet" href="css/login.css">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="https://unpkg.com/sweetalert/dist/sweetalert.css">
-    <style>
-.gender-selection select {
-    width: 90%; 
-    margin-left: 10px;
-    padding: 10px; 
-    border-radius: 5px; 
-    border: 1px solid #ccc;
-    font-size: 16px;
-    color: #333;
-}
-    </style>
 </head>
 <body>
 <input type="hidden" id="status" value="<%=request.getAttribute(status) %>">
@@ -76,7 +65,7 @@
                             <input type="date" name="dob" id="dob">
                         </div>
                           <div class="text-fields gender-selection">
-        <p class="fields-heading">Gender :</p>
+        <p class="fields-heading">Gender:</p>
         <select name="gender" id="gender">
             <option value="" disabled selected>Select your gender</option>
             <option value="Male">Male</option>

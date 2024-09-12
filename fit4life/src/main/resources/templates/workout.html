@@ -34,8 +34,8 @@
     <div class="container-fluid bg-dark px-0">
         <div class="row gx-0">
             <div class="col-lg-3 bg-dark d-none d-lg-flex align-items-center justify-content-center">
-                <a href="/Frontend/index.html" class="navbar-brand w-100 h-100 m-0 p-0 d-flex align-items-center justify-content-center">
-                    <img src="https://res.cloudinary.com/dbzlzmrhc/image/upload/v1718185446/logo_gzw8mq.png" alt="Fit4Life Logo" class="img-fluid logo-img">
+                <a href="index" class="navbar-brand w-100 h-100 m-0 p-0 d-flex align-items-center justify-content-center">
+                    <img src="https://res.cloudinary.com/deup6t83x/image/upload/v1721236251/logo_pctu2u.png" alt="Fit4Life Logo" class="img-fluid logo-img">
                 </a>
             </div>
             <div class="col-lg-9">
@@ -50,14 +50,14 @@
 			            <div class="navbar-nav mr-auto py-0">
 			                <a href="index" class="nav-item nav-link">Home</a>
 			                <a href="workout" class="nav-item nav-link active">Workout</a>
-			                <a href="userdashboard" class="nav-item nav-link">Dashboard</a>
+			                <a href="dashboard" id="dashboardLink" class="nav-item nav-link">Dashboard</a>
 			                <a href="about" class="nav-item nav-link">About</a>
 			                <a href="contact" class="nav-item nav-link">Contact</a>
 			            </div>
 			            <div class="nav-item dropdown">
-			                <a href="#" id="loginDropdown" class="btn btn-primary py-md-3 px-md-5 nav-link dropdown-toggle hidden" data-bs-toggle="dropdown">
-			                    Login
-			                </a>
+			            <a href="#" id="loginDropdown" class="btn btn-primary py-md-3 px-md-5 nav-link dropdown-toggle hidden" data-bs-toggle="dropdown">
+			            Login
+			            </a>
 			                <div class="dropdown-menu dropdown-menu-end rounded-0 m-0 hidden" id="dropdownMenu">
 			                    <!-- Content will be injected by JavaScript -->
 			                </div>
@@ -762,7 +762,7 @@
                 
             </div>
             <div class="footer-section">
-                <img src="https://res.cloudinary.com/dbzlzmrhc/image/upload/v1718185446/logo_gzw8mq.png" alt="logo" class="img-fluid logo-img rotate-image">
+                <img src="https://res.cloudinary.com/deup6t83x/image/upload/v1721236251/logo_pctu2u.png" alt="logo" class="img-fluid logo-img rotate-image">
                 <p class="text-secondary mb-2">Discover Your Potential,<br> Transform Your Life with Us.</p>
             </div>
             
@@ -792,12 +792,13 @@
          </div>
          </footer>
         <!-- Footer End -->
-       <div id="loginPromptModal" class="modal">
-  <div class="modal-content">
-    <span class="close">&times;</span>
-    <p>Please log in to access the videos.</p>
-    <button id="loginNowBtn" class="btn btn-primary">Login Now</button>
-  </div>
+     <!-- Login Prompt Modal -->
+<div id="loginPromptModal" style="display: none;">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <p>Please log in to access this content.</p>
+        <button id="loginNowBtn">Login Now</button>
+    </div>
 </div>
 
 
@@ -831,69 +832,86 @@
         document.getElementById(level + '-workout').classList.add('active');
     }
     
-        function readMore(title, type, category) {
-            const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-            if (isLoggedIn) {
-                window.location.href = `video?title=${encodeURIComponent(title)}&type=${encodeURIComponent(type)}&category=${encodeURIComponent(category)}`;
-            } else {
-                // Set data attributes for the login button
-                const loginNowBtn = document.getElementById('loginNowBtn');
-                loginNowBtn.setAttribute('data-title', title);
-                loginNowBtn.setAttribute('data-type', type);
-                loginNowBtn.setAttribute('data-category', category);
-                document.getElementById('loginPromptModal').style.display = 'block';
-            }
+    function readMore(title, type, category) {
+        console.log('readMore function called');
+        const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+        console.log('Is logged in:', isLoggedIn);
+        if (isLoggedIn) {
+            window.location.href = `video?title=${encodeURIComponent(title)}&type=${encodeURIComponent(type)}&category=${encodeURIComponent(category)}`;
+        } else {
+            // Set the video attributes for the login button redirection
+            const loginNowBtn = document.getElementById('loginNowBtn');
+            loginNowBtn.setAttribute('data-title', title);
+            loginNowBtn.setAttribute('data-type', type);
+            loginNowBtn.setAttribute('data-category', category);
+
+            // Show login prompt
+            document.getElementById('loginPromptModal').style.display = 'block';
         }
+    }
 
-        loginNowBtn.onclick = function() {
-            const title = encodeURIComponent(loginNowBtn.getAttribute('data-title'));
-            const type = encodeURIComponent(loginNowBtn.getAttribute('data-type'));
-            const category = encodeURIComponent(loginNowBtn.getAttribute('data-category'));
-            const redirectUrl = `video?title=${title}&type=${type}&category=${category}`;
-            window.location.href = `login?redirect=${encodeURIComponent(redirectUrl)}`;
-        };
-		
-      //Fetch Username From Database
-		document.addEventListener('DOMContentLoaded', function () {
-		    fetch('/api/getSessionAttributes', {
-		        method: 'GET',
-		        headers: {
-		            'Content-Type': 'application/json'
-		        }
-		    })
-		    .then(response => response.json())
-		    .then(data => {
-		        const { isLoggedIn, fname } = data;
-		        const loginButton = document.getElementById('loginDropdown');
-		        const dropdownMenu = document.getElementById('dropdownMenu');
+    document.getElementById('loginNowBtn').addEventListener('click', function () {
+        const title = encodeURIComponent(this.getAttribute('data-title'));
+        const type = encodeURIComponent(this.getAttribute('data-type'));
+        const category = encodeURIComponent(this.getAttribute('data-category'));
+        const redirectUrl = `video?title=${title}&type=${type}&category=${category}`;
+        console.log('Redirect URL:', redirectUrl);
+        window.location.href = `login?redirect=${encodeURIComponent(redirectUrl)}`;
+    });
 
-		        if (isLoggedIn && fname) {
-		            // Replace login button text with first name
-		            loginButton.textContent = fname;
-		            loginButton.classList.remove('btn-primary');
-		            loginButton.classList.add('btn-secondary');
+    function closeModal() {
+        console.log('Closing modal');
+        document.getElementById('loginPromptModal').style.display = 'none';
+    }
 
-		            // Update dropdown to show the logout option
-		            dropdownMenu.innerHTML = `
-		                <a href="/logout" class="dropdown-item" id="logout">Logout</a>
-		            `;
+     // Fetch Username From Database
+        document.addEventListener('DOMContentLoaded', function () {
+          fetch('/api/getSessionAttributes', {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          })
+          .then(response => response.json())
+          .then(data => {
+            const { isLoggedIn, fname } = data;
+            const loginButton = document.getElementById('loginDropdown');
+            const dropdownMenu = document.getElementById('dropdownMenu');
+            const dashboardLink = document.getElementById('dashboardLink'); // Select the Dashboard link
 
-		        } else {
-		            // Show login options if not logged in
-		            loginButton.textContent = 'Login';
-		            dropdownMenu.innerHTML = `
-		                <a href="/login" class="dropdown-item">User Login</a>
-		                <a href="/admin_login" class="dropdown-item">Admin Login</a>`;
-		        }
+            if (isLoggedIn && fname) {
+              // Replace login button text with first name
+              loginButton.textContent = fname;
+              loginButton.classList.remove('btn-secondary');
+              loginButton.classList.add('btn-primary');
+              // Update dropdown to show the logout option
+              dropdownMenu.innerHTML = `
+                <a href="/logout" class="dropdown-item" id="logout">Logout</a>
+              `;
 
-		        // Remove the hidden class to display the updated button and dropdown
-		        loginButton.classList.remove('hidden');
-		        dropdownMenu.classList.remove('hidden');
-		    })
-		    .catch(error => {
-		        console.error('Error:', error);
-		    });
-		});
+              // Show the Dashboard link if user is logged in
+              dashboardLink.style.display = 'block';
+
+            } else {
+              // Show login options if not logged in
+              loginButton.textContent = 'Login';
+              dropdownMenu.innerHTML = `
+                <a href="/login" class="dropdown-item">User Login</a>
+                <a href="/admin_login" class="dropdown-item">Admin Login</a>
+              `;
+
+              // Hide the Dashboard link if user is not logged in
+              dashboardLink.style.display = 'none';
+            }
+
+            // Remove the hidden class to display the updated button and dropdown
+            loginButton.classList.remove('hidden');
+            dropdownMenu.classList.remove('hidden');
+          })
+          .catch(error => {
+            console.error('Error:', error);
+          });
+        });
     </script>
 </body>
 </html>

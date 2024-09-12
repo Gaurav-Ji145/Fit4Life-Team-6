@@ -209,36 +209,28 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     content: 'Date of birth';
     background-color: #F4F5F8;
     position: relative;
-    padding: 0 4%;
-    left: -215px;
+    padding: 0 1%;
+    left: -184px;
     width: 342px;
     color: #FB5B21;
     top: -33px;
 }
 
-.gender-selection {
-    display: flex;
-    align-items: center;
-    margin-left: 4%;
-    width: 100%;
-}
 
 .fields-heading {
     color: #FB5B21;
     width: 20%;
 }
 
-.gender-selection label {
-    margin: 0 2%;
-    display: flex;
-    align-items: center;
+.gender-selection select {
+    width: 90%; 
+    margin-left: 10px;
+    padding: 10px; 
+    border-radius: 5px; 
+    border: none;
+	background-color: #F4F5F8;
+    font-size: 16px;
     color: #84848d;
-    width: 20%;
-}
-
-input[type="radio"] {
-    accent-color: #FB5B21;
-    margin-right: 6%;
 }
 
 .pagination-btns {

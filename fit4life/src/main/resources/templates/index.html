@@ -47,7 +47,7 @@
 			            <div class="navbar-nav mr-auto py-0">
 			                <a href="index" class="nav-item nav-link active">Home</a>
 			                <a href="workout" class="nav-item nav-link">Workout</a>
-			                <a href="userdashboard" class="nav-item nav-link">Dashboard</a>
+			              	<a href="dashboard" id="dashboardLink" class="nav-item nav-link">Dashboard</a>
 			                <a href="about" class="nav-item nav-link">About</a>
 			                <a href="contact" class="nav-item nav-link">Contact</a>
 			            </div>
@@ -77,8 +77,8 @@
                     <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                         <div class="p-3" style="max-width: 900px;">
                             <h1 class="display-2 text-white text-uppercase mb-md-4">Step Into Fitness Transform Your Life</h1>
-                            <a href="signup" class="btn btn-primary py-md-3 px-md-5 me-3">Register</a>
-                            <a href="contact" class="btn btn-light py-md-3 px-md-5">Contact Us</a>
+                            <a href="signup" class="btn btn-primary py-md-3 px-md-5 me-3 btn-register">Register</a>
+							<a href="contact" class="btn btn-light py-md-3 px-md-5 btn-contact">Contact Us</a>
                         </div>
                     </div>
                 </div>
@@ -89,8 +89,8 @@
                     <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                         <div class="p-3" style="max-width: 900px;">
                             <h1 class="display-2 text-white text-uppercase mb-md-4">Unleash your potential lead a fit life</h1>
-                            <a href="signup" class="btn btn-primary py-md-3 px-md-5 me-3">Register</a>
-                            <a href="contact" class="btn btn-light py-md-3 px-md-5">Contact Us</a>
+                        <a href="signup" class="btn btn-primary py-md-3 px-md-5 me-3 btn-register">Register</a>
+						<a href="contact" class="btn btn-light py-md-3 px-md-5 btn-contact">Contact Us</a>
                         </div>
                     </div>
                 </div>
@@ -101,8 +101,8 @@
                     <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                         <div class="p-3" style="max-width: 900px;">
                             <h1 class="display-2 text-white text-uppercase mb-md-4">Your best self is just a login away. Start now!</h1>
-                            <a href="signup" class="btn btn-primary py-md-3 px-md-5 me-3">Register</a>
-                            <a href="contact" class="btn btn-light py-md-3 px-md-5">Contact Us</a>
+                            <a href="signup" class="btn btn-primary py-md-3 px-md-5 me-3 btn-register">Register</a>
+							<a href="contact" class="btn btn-light py-md-3 px-md-5 btn-contact">Contact Us</a>
                         </div>
                     </div>
                 </div>
@@ -252,48 +252,66 @@
 
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
-    <script>
-  //Fetch Username From Database
-	document.addEventListener('DOMContentLoaded', function () {
-	    fetch('/api/getSessionAttributes', {
-	        method: 'GET',
-	        headers: {
-	            'Content-Type': 'application/json'
-	        }
-	    })
-	    .then(response => response.json())
-	    .then(data => {
-	        const { isLoggedIn, fname } = data;
-	        const loginButton = document.getElementById('loginDropdown');
-	        const dropdownMenu = document.getElementById('dropdownMenu');
+   <script>
+  // Fetch Username From Database
+  document.addEventListener('DOMContentLoaded', function () {
+    fetch('/api/getSessionAttributes', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(response => response.json())
+    .then(data => {
+      const { isLoggedIn, fname } = data;
+      const loginButton = document.getElementById('loginDropdown');
+      const dropdownMenu = document.getElementById('dropdownMenu');
+      const dashboardLink = document.getElementById('dashboardLink'); // Select the Dashboard link
+      const registerButtons = document.querySelectorAll('.btn-register'); // Select all Register buttons
+      const contactButtons = document.querySelectorAll('.btn-contact'); // Select all Contact Us buttons
 
-	        if (isLoggedIn && fname) {
-	            // Replace login button text with first name
-	            loginButton.textContent = fname;
-	            loginButton.classList.remove('btn-primary');
-	            loginButton.classList.add('btn-secondary');
+      if (isLoggedIn && fname) {
+        // Replace login button text with first name
+        loginButton.textContent = fname;
+        loginButton.classList.remove('btn-secondary');
+        loginButton.classList.add('btn-primary');
 
-	            // Update dropdown to show the logout option
-	            dropdownMenu.innerHTML = `
-	                <a href="/logout" class="dropdown-item" id="logout">Logout</a>
-	            `;
+        // Update dropdown to show the logout option
+        dropdownMenu.innerHTML = `
+          <a href="/logout" class="dropdown-item" id="logout">Logout</a>
+        `;
 
-	        } else {
-	            // Show login options if not logged in
-	            loginButton.textContent = 'Login';
-	            dropdownMenu.innerHTML = `
-	                <a href="/login" class="dropdown-item">User Login</a>
-	                <a href="/admin_login" class="dropdown-item">Admin Login</a>`;
-	        }
+        // Show the Dashboard link if user is logged in
+        dashboardLink.style.display = 'block';
 
-	        // Remove the hidden class to display the updated button and dropdown
-	        loginButton.classList.remove('hidden');
-	        dropdownMenu.classList.remove('hidden');
-	    })
-	    .catch(error => {
-	        console.error('Error:', error);
-	    });
-	});
-	</script>
+        // Hide all Register and Contact Us buttons if user is logged in
+        registerButtons.forEach(button => button.style.display = 'none');
+        contactButtons.forEach(button => button.style.display = 'none');
+
+      } else {
+        // Show login options if not logged in
+        loginButton.textContent = 'Login';
+        dropdownMenu.innerHTML = `
+          <a href="/login" class="dropdown-item">User Login</a>
+          <a href="/admin_login" class="dropdown-item">Admin Login</a>
+        `;
+
+        // Hide the Dashboard link if user is not logged in
+        dashboardLink.style.display = 'none';
+
+        // Show all Register and Contact Us buttons if user is not logged in
+        registerButtons.forEach(button => button.style.display = 'inline-block');
+        contactButtons.forEach(button => button.style.display = 'inline-block');
+      }
+
+      // Remove the hidden class to display the updated button and dropdown
+      loginButton.classList.remove('hidden');
+      dropdownMenu.classList.remove('hidden');
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+  });
+</script>
 </body>
 </html>

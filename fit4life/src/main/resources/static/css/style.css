@@ -101,6 +101,10 @@ h6,
     color: var(--primary);
 }
 
+#dashboardLink {
+  display: none; /* Hide Dashboard link by default */
+}
+
 @media (max-width: 991.98px) {
     .navbar-dark .navbar-nav .nav-link  {
         margin-right: 0;

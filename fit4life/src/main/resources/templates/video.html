@@ -49,7 +49,7 @@
 			            <div class="navbar-nav mr-auto py-0">
 			                <a href="index" class="nav-item nav-link">Home</a>
 			                <a href="workout" class="nav-item nav-link active">Workout</a>
-			                <a href="userdashboard" class="nav-item nav-link">Dashboard</a>
+			                <a href="dashboard" id="dashboardLink" class="nav-item nav-link">Dashboard</a>
 			                <a href="about" class="nav-item nav-link">About</a>
 			                <a href="contact" class="nav-item nav-link">Contact</a>
 			            </div>
@@ -185,47 +185,54 @@
     <script src="js/main.js"></script>
     <script src="js/video.js"></script>
     <script>
-  //Fetch Username From Database
-	document.addEventListener('DOMContentLoaded', function () {
-	    fetch('/api/getSessionAttributes', {
-	        method: 'GET',
-	        headers: {
-	            'Content-Type': 'application/json'
-	        }
-	    })
-	    .then(response => response.json())
-	    .then(data => {
-	        const { isLoggedIn, fname } = data;
-	        const loginButton = document.getElementById('loginDropdown');
-	        const dropdownMenu = document.getElementById('dropdownMenu');
+ // Fetch Username From Database
+    document.addEventListener('DOMContentLoaded', function () {
+      fetch('/api/getSessionAttributes', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      .then(response => response.json())
+      .then(data => {
+        const { isLoggedIn, fname } = data;
+        const loginButton = document.getElementById('loginDropdown');
+        const dropdownMenu = document.getElementById('dropdownMenu');
+        const dashboardLink = document.getElementById('dashboardLink'); // Select the Dashboard link
 
-	        if (isLoggedIn && fname) {
-	            // Replace login button text with first name
-	            loginButton.textContent = fname;
-	            loginButton.classList.remove('btn-primary');
-	            loginButton.classList.add('btn-secondary');
+        if (isLoggedIn && fname) {
+          // Replace login button text with first name
+          loginButton.textContent = fname;
+          loginButton.classList.remove('btn-secondary');
+          loginButton.classList.add('btn-primary');
+          // Update dropdown to show the logout option
+          dropdownMenu.innerHTML = `
+            <a href="/logout" class="dropdown-item" id="logout">Logout</a>
+          `;
 
-	            // Update dropdown to show the logout option
-	            dropdownMenu.innerHTML = `
-	                <a href="/logout" class="dropdown-item" id="logout">Logout</a>
-	            `;
+          // Show the Dashboard link if user is logged in
+          dashboardLink.style.display = 'block';
 
-	        } else {
-	            // Show login options if not logged in
-	            loginButton.textContent = 'Login';
-	            dropdownMenu.innerHTML = `
-	                <a href="/login" class="dropdown-item">User Login</a>
-	                <a href="/admin_login" class="dropdown-item">Admin Login</a>`;
-	        }
+        } else {
+          // Show login options if not logged in
+          loginButton.textContent = 'Login';
+          dropdownMenu.innerHTML = `
+            <a href="/login" class="dropdown-item">User Login</a>
+            <a href="/admin_login" class="dropdown-item">Admin Login</a>
+          `;
 
-	        // Remove the hidden class to display the updated button and dropdown
-	        loginButton.classList.remove('hidden');
-	        dropdownMenu.classList.remove('hidden');
-	    })
-	    .catch(error => {
-	        console.error('Error:', error);
-	    });
-	});
+          // Hide the Dashboard link if user is not logged in
+          dashboardLink.style.display = 'none';
+        }
+
+        // Remove the hidden class to display the updated button and dropdown
+        loginButton.classList.remove('hidden');
+        dropdownMenu.classList.remove('hidden');
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+    });
     </script>            
 </body>
 </html>
