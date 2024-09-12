@@ -204,6 +204,7 @@
     }
    /* General tab content styling */
 .tab-content {
+	position:relative;
     display: none;
     justify-content: center;
     align-items: center;
@@ -211,8 +212,8 @@
     text-align: center;
     background-color: black;
     border-radius: 10px;
-    padding: 20px;
-    margin-bottom: 20px;
+    padding: 10px;
+    margin-bottom: 50px;
 }
 
 .tab-content video, .tab-content iframe {
@@ -221,7 +222,7 @@
 }
 
 .tab-content.active {
-    display: flex; /* Changed to flex for alignment */
+    display: block;
 }
 
 /* Tabs container styling */
@@ -344,6 +345,17 @@
     text-decoration: none;
     cursor: pointer;
 }
+#animation-tab #start-button,
+#animation-tab #timer-container {
+    display: block;
+}
+
+#muscles-tab #start-button,
+#muscles-tab #timer-container,
+#how-to-do-tab #start-button,
+#how-to-do-tab #timer-container {
+    display: none;
+}
 /* Ensure full width for timer and instructions */
 #timer-container {
     width: 100%;
@@ -358,8 +370,7 @@
     color: #333;
     margin-right: 20px;
     width: 80px;
-    height: 80px;
-    border-radius: 50%;
+    height: 42px;
     border: 5px solid #ff7300;
     display: flex;
     align-items: center;
@@ -370,7 +381,7 @@
 button.start {
     width: 150px;
     padding: 10px;
-    background-color: #888;
+    background-color:#ff7300;
     color: white;
     border: none;
     border-radius: 5px;
@@ -380,7 +391,7 @@ button.start {
 }
 
 button.start:hover {
-    background-color: #ff7300;
+    background-color:#e65c00;
 }
 
 /* Scrollbar customization (optional) */
@@ -395,11 +406,4 @@ button.start:hover {
 
 .sidebar::-webkit-scrollbar-track {
     background-color: #f0f0f0;
-}
-#animation-video {
-    display: none; /* Hidden initially */
-}
-
-#muscles-video {
-    display: none; /* Hidden initially */
 }
