@@ -1,6 +1,8 @@
 package com.ojt.project.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.ojt.project.entity.WorkoutVideo;
@@ -23,41 +25,23 @@ public class WorkoutVideoController {
     public List<WorkoutVideo> getAllWorkouts() {
         return workoutService.getAllWorkouts();
     }
+
     @GetMapping("/workoutdetails")
-    public List<WorkoutVideo> getWorkoutsByCategoryAndType(
+    public ResponseEntity<List<WorkoutVideo>> getWorkoutsByCategoryAndType(
             @RequestParam String workoutCategory,
             @RequestParam String workoutType) {
-        System.out.println("Category: " + workoutCategory);
-        System.out.println("Type: " + workoutType);
-        return workoutService.getWorkoutsByCategoryAndType(workoutCategory, workoutType);
+        List<WorkoutVideo> workouts = workoutService.getWorkoutsByCategoryAndType(workoutCategory, workoutType);
+        return new ResponseEntity<>(workouts, HttpStatus.OK);
     }
-    // New POST mapping for adding a new workout
-    @PostMapping("/add")
-public WorkoutVideo addWorkout(
-        @RequestParam String workoutCategory,
-        @RequestParam String workoutType,
-        @RequestParam String workoutName,
-        @RequestParam(required = false) String instructions,
-        @RequestParam(required = false) String focusArea,
-        @RequestParam(required = false) String commonMistakes,
-        @RequestParam(required = false) String breathingTips,
-        @RequestParam(required = false) String animationUrl,
-        @RequestParam(required = false) String musclesUrl,
-        @RequestParam(required = false) String howToDoUrl,
-        @RequestParam(required = false) Integer workoutDuration) {
-    WorkoutVideo workoutVideo = new WorkoutVideo();
-    workoutVideo.setWorkoutCategory(workoutCategory);
-    workoutVideo.setWorkoutType(workoutType);
-    workoutVideo.setWorkoutName(workoutName);
-    workoutVideo.setInstructions(instructions);
-    workoutVideo.setFocusArea(focusArea);
-    workoutVideo.setCommonMistakes(commonMistakes);
-    workoutVideo.setBreathingTips(breathingTips);
-    workoutVideo.setAnimationUrl(animationUrl);
-    workoutVideo.setMusclesUrl(musclesUrl);
-    workoutVideo.setHowToDoUrl(howToDoUrl);
-    workoutVideo.setWorkoutDuration(workoutDuration);
-    return workoutService.saveWorkout(workoutVideo);
-}
 
+    @PostMapping("/add")
+    public ResponseEntity<WorkoutVideo> addWorkout(@RequestBody WorkoutVideo workoutVideo) {
+        try {
+            WorkoutVideo savedWorkout = workoutService.saveWorkout(workoutVideo);
+            return new ResponseEntity<>(savedWorkout, HttpStatus.CREATED);
+        } catch (Exception e) {
+            // Log the error and return a 400 Bad Request response
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+    }
 }

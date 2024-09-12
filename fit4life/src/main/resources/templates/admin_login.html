@@ -35,7 +35,6 @@
                 </div>
             </div>
             <input type="button" value="Login" onclick="submitLoginDetails()" class="nextPage">
-            <a href="/forgot" class="forgot-password">Forgot Password?</a>
 
         </form>
     </div>
@@ -43,33 +42,46 @@
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
     <script>
 
-        // Login form functionality
-        function submitLoginDetails() {
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            let errorMessage = '';
+    function submitLoginDetails() {
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        let errorMessage = '';
 
-            if (!email) {
-                errorMessage += 'Please enter your email.\n';
-            } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-                errorMessage += 'Please enter a valid email address.\n';
-            }
-
-            if (!password) {
-                errorMessage += 'Please enter your password.\n';
-            } else if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,12}$/.test(password)) {
-                errorMessage += 'Password must be 8-12 characters long, include at least one uppercase letter, one lowercase letter, one number, and one special character.\n';
-            }
-
-            if (errorMessage) {
-                alert(errorMessage.trim());
-            } else {
-                alert('Login successful!');
-                localStorage.setItem('isLoggedIn', 'true');
-                window.location.href = 'admin';
-            }
+        if (!email) {
+            errorMessage += 'Please enter your email.\n';
+        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            errorMessage += 'Please enter a valid email address.\n';
         }
 
+       /* if (!password) {
+            errorMessage += 'Please enter your password.\n';
+        } else if (!/(?=.[a-z])(?=.[A-Z])(?=.\d)(?=.[@$!%?&])[A-Za-z\d@$!%?&]{8,12}$/.test(password)) {
+            errorMessage += 'Password must be 8-12 characters long, include at least one uppercase letter, one lowercase letter, one number, and one special character.\n';
+        }*/
+
+        if (errorMessage) {
+            alert(errorMessage.trim());
+        } else {
+            // Send login details to the backend
+            fetch('http://localhost:8080/api/admin/login?email=' + encodeURIComponent(email) + '&password=' + encodeURIComponent(password), {
+                method: 'POST'
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data) {
+                    alert('Login successful!');
+                    localStorage.setItem('isLoggedIn', 'true');
+                    window.location.href = 'admin';
+                } else {
+                    alert('Invalid email or password.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred. Please try again.');
+            });
+        }
+    }
         // Function to redirect to index.html
         function redirectToIndex() {
             window.location.href = 'index';

@@ -336,22 +336,23 @@
     <div class="col-md-12">
       <div class="mb-3">
         <label for="title" class="form-label highlight-label">WorkOut Name</label>
-        <input type="text" class="form-control" id="title" name="WorkOutName" placeholder="Enter the WorkOut Name" />
+        <input type="text" class="form-control" id="title" name="workoutName" placeholder="Enter the WorkOut Name" />
       </div>
     </div>
     <!-- Video Link Inputs -->
     <div class="col-md-6 col-lg-4">
       <div class="mb-3">
+      
         <label for="animationSrc" class="form-label highlight-label">Animation Video Link</label>
-        <input type="url" class="form-control" id="video1" name="animationSrc" placeholder="Enter Animation Video URL" />
+        <input type="url" class="form-control" id="video1" name="animationUrl" placeholder="Enter Animation Video URL" />
       </div>
       <div class="mb-3">
         <label for="musclesSrc" class="form-label highlight-label">Muscles Video Link</label>
-        <input type="url" class="form-control" id="video2" name="musclesSrc" placeholder="Enter Muscles Video URL" />
+        <input type="url" class="form-control" id="video2" name="musclesUrl" placeholder="Enter Muscles Video URL" />
       </div>
       <div class="mb-3">
         <label for="howToDoSrc" class="form-label highlight-label">How To Do Video Link</label>
-        <input type="url" class="form-control" id="video3" name="howToDoSrc" placeholder="Enter How To Do Video URL" />
+        <input type="url" class="form-control" id="video3" name="howToDoUrl" placeholder="Enter How To Do Video URL" />
       </div>
     </div>
     <!-- Text Areas -->
@@ -381,7 +382,7 @@
     <div class="col-md-12">
       <div class="mb-3">
         <label for="duration" class="form-label highlight-label">WorkOut Duration</label>
-        <input type="time" class="form-control" id="duration" name="WorkOutDuration" />
+        <input type="time" class="form-control" id="duration" name="workoutDuration" />
       </div>
     </div>
   </div>
@@ -455,26 +456,48 @@
     <!-- Kaiadmin DEMO methods, don't include it in your project! -->
     <script src="Admin/assets/js/setting-demo2.js"></script>
     <script>
+    document.getElementById("WorkOutForm").addEventListener("submit", function(event) {
+        event.preventDefault();  // Prevent traditional form submission
 
-fetch('/workouts/add', {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-        workoutCategory: 'Category1',
-        workoutType: 'Type1',
-        workoutName: 'Name1',
-        instructions: 'Instructions here',
-        focusArea: 'Focus Area',
-        commonMistakes: 'Common Mistakes',
-        breathingTips: 'Breathing Tips',
-        animationUrl: 'http://example.com/animation',
-        musclesUrl: 'http://example.com/muscles',
-        howToDoUrl: 'http://example.com/howtodo',
-        workoutDuration: 30
-    })
-});
+        const timeString = document.getElementById("duration").value;
+        const timeParts = timeString.split(":");
+        const hours = parseInt(timeParts[0], 10);
+        const minutes = parseInt(timeParts[1], 10);
+        const totalMinutes = (hours * 60) + minutes;  // Convert to minutes
+
+        const formData = {
+            workoutCategory: document.getElementById("workoutCategory").value,
+            workoutType: document.getElementById("workoutType").value,
+            workoutName: document.getElementById("title").value,
+            instructions: document.getElementById("instructions").value,
+            focusArea: document.getElementById("focusArea").value,
+            commonMistakes: document.getElementById("commonMistakes").value,
+            breathingTips: document.getElementById("breathingTips").value,
+            animationUrl: document.getElementById("video1").value,
+            musclesUrl: document.getElementById("video2").value,
+            howToDoUrl: document.getElementById("video3").value,
+            workoutDuration: totalMinutes  // Send the duration in minutes
+        };
+
+        // Send POST request to save data
+        fetch('/workouts/add', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData),
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert('Successfully Added');
+
+            // Reset the form fields
+            document.getElementById("WorkOutForm").reset();
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+    });
 
     // Function to validate form fields
     function validateForm() {
