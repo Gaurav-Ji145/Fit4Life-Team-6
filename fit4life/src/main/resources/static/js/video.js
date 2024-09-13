@@ -98,8 +98,6 @@ document.addEventListener('DOMContentLoaded', function () {
 document.addEventListener('DOMContentLoaded', function () {
     const startButton = document.getElementById('start-button');
     const animationVideo = document.getElementById('animation-video');
-    const musclesVideo = document.getElementById('muscles-video');
-    const howToDoVideo = document.getElementById('how-to-do-video');
     const timerElement = document.getElementById('timer');
 
     let videoStartTime = null;
@@ -109,12 +107,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Remove autoplay and hide controls initially
     animationVideo.removeAttribute('autoplay');
-    musclesVideo.removeAttribute('autoplay');
-    howToDoVideo.removeAttribute('autoplay');
     animationVideo.controls = false;
-    musclesVideo.controls = false;
-    howToDoVideo.controls = false;
-
+    
     startButton.addEventListener('click', function () {
         let currentVideo = getCurrentVideo();
 

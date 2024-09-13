@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Forgot Password</title>
+    <title>Verify OTP</title>
     <link rel="icon" href="https://res.cloudinary.com/deup6t83x/image/upload/v1721236251/logo_pctu2u.png" type="image/x-icon">
     <link rel="stylesheet" href="css/login.css">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
@@ -16,33 +16,33 @@
                 <i class='bx bx-pencil'></i>
                 <span class="text">Fit4Life</span>
             </div>
-            <p class="side-big-hedaing">Forgot your password?</p>
-            <p class="primary-bg-text">Enter your email address below, and we'll send you instructions on how to reset your password.</p>
+            <p class="side-big-hedaing">Verify OTP</p>
+            <p class="primary-bg-text">Enter the OTP we sent to your email to reset your password.</p>
             <a href="signup.html" class="loginbtn">Create Account</a>
         </div>
-        
-        <!-- forgot.html -->
+        <!-- verify_otp.html -->
 <div class="login-form-contents">
-    <form id="forgotPasswordForm" method="post" action="/send-otp">
-        <p class="big-heading">Reset your password</p>
-        
+    <form id="verifyOtpForm" method="post" action="/verify-otp">
+        <p class="big-heading">Enter OTP</p>
+
         <!-- Display session message if exists -->
         <c:if test="${not empty sessionScope.message}">
-           <!-- <div class="alert alert-success">
+            <div class="alert alert-success">
                 ${sessionScope.message}
-            </div> -->
+            </div>
         </c:if>
 
-        <div class="text-fields email">
-            <label for="email"><i class='bx bx-envelope'></i></label>
-            <input type="email" name="email" id="email" placeholder="Enter your email id" required>
+        <div class="text-fields otp">
+            <label for="otp"><i class='bx bx-key'></i></label>
+            <input type="text" name="otp" id="otp" placeholder="Enter your OTP" maxlength="6" required>
         </div>
-        <input type="submit" value="Send OTP" class="nextPage">
+        <input type="submit" value="Verify OTP" class="nextPage">
     </form>
 </div>
-     
+        
 
     </div>
+
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
     <script>
         // Function to redirect to index.html

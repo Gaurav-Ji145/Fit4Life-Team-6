@@ -2,13 +2,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-  
+
   <modelVersion>4.0.0</modelVersion>
   
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>3.3.2</version>
+    <version>3.3.3</version>
     <relativePath/> <!-- You can remove this if it’s not needed -->
   </parent>
   
@@ -19,7 +19,6 @@
   <description>Demo project for Spring Boot</description>
 
   <properties>
-    <!-- It's safer to use a stable LTS version like 17 -->
     <java.version>17</java.version>
   </properties>
 
@@ -68,11 +67,6 @@
       <scope>runtime</scope>
     </dependency>
 
-	<dependency>
-    <groupId>com.fasterxml.jackson.core</groupId>
-    <artifactId>jackson-databind</artifactId>
-	</dependency>
-
     <!-- DevTools for live reload -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -87,6 +81,20 @@
       <artifactId>spring-boot-starter-test</artifactId>
       <scope>test</scope>
     </dependency>
+
+    <!-- Spring Boot Starter Mail for email services -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-mail</artifactId>
+    </dependency>
+
+    <!-- Jakarta Mail API (Correct dependency for email services) -->
+    <dependency>
+      <groupId>jakarta.mail</groupId>
+      <artifactId>jakarta.mail-api</artifactId>
+      <version>2.0.1</version>
+    </dependency>
+    
   </dependencies>
 
   <build>
@@ -97,4 +105,5 @@
       </plugin>
     </plugins>
   </build>
+  
 </project>
