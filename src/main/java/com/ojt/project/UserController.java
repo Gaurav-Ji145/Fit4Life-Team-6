@@ -130,6 +130,7 @@ public class UserController {
       @PostMapping("/login")
       public String login(@RequestParam String email, 
                           @RequestParam String password, 
+                          @RequestParam(required = false) String redirect,  // Optional redirect URL
                           HttpSession session, 
                           Model model) {
           // Authenticate the user with email and password
@@ -137,12 +138,18 @@ public class UserController {
 
           if (user != null) {
               // If authentication is successful, store user in session
-        	  session.setAttribute("user", user);
-              return "redirect:/index";  // Redirect to the home page
+              session.setAttribute("user", user);
+
+              // Redirect to the original page (video) if the redirect URL is provided
+              if (redirect != null && !redirect.isEmpty()) {
+                  return "redirect:/" + redirect;
+              }
+              // Otherwise, redirect to the home page
+              return "redirect:/index";
           } else {
               // If authentication fails, show an error message
               model.addAttribute("error", "Invalid email or password");
-              return "login";  // Stay on the login page and display the error message
+              return "login";
           }
       }
 

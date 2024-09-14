@@ -36,12 +36,12 @@
 // Array of fitness image URLs
         const fitnessImages = [
             'https://res.cloudinary.com/deup6t83x/image/upload/v1721236285/banner5_lntomc.png',
-            'https://res.cloudinary.com/deup6t83x/image/upload/v1721236217/banner_opykal.jpg',
-            'https://res.cloudinary.com/deup6t83x/image/upload/v1721236217/banner2_dubj0v.jpg',
-            'https://res.cloudinary.com/deup6t83x/image/upload/v1721236222/banner3_yhpyz3.jpg',
-            'hhttps://res.cloudinary.com/deup6t83x/image/upload/v1721236224/banner6_mw0iwb.jpg',
-            'https://res.cloudinary.com/deup6t83x/image/upload/v1721236227/banner7_zrw7zw.jpg',
             'https://res.cloudinary.com/deup6t83x/image/upload/v1721236236/banner4_pjm22p.jpg',
+            'https://res.cloudinary.com/deup6t83x/image/upload/v1721236227/banner7_zrw7zw.jpg',
+            'https://res.cloudinary.com/deup6t83x/image/upload/v1721236224/banner6_mw0iwb.jpg',
+            'https://res.cloudinary.com/deup6t83x/image/upload/v1721236222/banner3_yhpyz3.jpg',
+            'https://res.cloudinary.com/deup6t83x/image/upload/v1721236217/banner2_dubj0v.jpg',
+            'https://res.cloudinary.com/deup6t83x/image/upload/v1721236217/banner_opykal.jpg',
         ];
 
         // Function to get a random image URL

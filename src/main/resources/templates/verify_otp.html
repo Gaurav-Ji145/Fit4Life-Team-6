@@ -25,12 +25,12 @@
     <form id="verifyOtpForm" method="post" action="/verify-otp">
         <p class="big-heading">Enter OTP</p>
 
-        <!-- Display session message if exists -->
-        <c:if test="${not empty sessionScope.message}">
-            <div class="alert alert-success">
-                ${sessionScope.message}
-            </div>
-        </c:if>
+         <!-- Display session message if exists -->
+                <div th:if="${message}" class="container">
+                    <div class="alert alert-danger my-2 text-center" role="alert">
+                        <span th:text="${message}"></span>
+                    </div>
+                </div>
 
         <div class="text-fields otp">
             <label for="otp"><i class='bx bx-key'></i></label>

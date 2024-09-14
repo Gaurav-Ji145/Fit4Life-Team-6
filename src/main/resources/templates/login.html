@@ -35,8 +35,8 @@
                     <input type="password" name="password" id="password" placeholder="Enter password">
                     <i class='bx bx-hide password-toggle' id="togglePassword"></i>
                 </div>
-                <center
-                ><a href="forgot" class="forgot-password">Forgot Password?</a></center>
+                <center>
+                <a href="forgot" class="forgot-password">Forgot Password?</a></center>
                 
                 <br>
             </div>
@@ -51,6 +51,17 @@
 
 
 <script type="text/javascript">
+
+//Get the redirect URL parameter from the current URL
+const urlParams = new URLSearchParams(window.location.search);
+const redirect = urlParams.get('redirect');
+
+// Modify the form action to include the redirect URL as a parameter if it exists
+const loginForm = document.getElementById('loginForm');
+if (redirect) {
+    loginForm.action = `/login?redirect=${encodeURIComponent(redirect)}`;
+}
+
 	var status = document.getElementById("status").value;
 	if (status == "failed") {
 	    swal("Sorry", "Wrong Username and Password", "error");
