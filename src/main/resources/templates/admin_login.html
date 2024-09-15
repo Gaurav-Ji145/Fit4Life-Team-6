@@ -63,7 +63,7 @@
             alert(errorMessage.trim());
         } else {
             // Send login details to the backend
-            fetch('http://localhost:8080/api/admin/login?email=' + encodeURIComponent(email) + '&password=' + encodeURIComponent(password), {
+            fetch('https://fit4life-team-6-production.up.railway.app/api/admin/login?email=' + encodeURIComponent(email) + '&password=' + encodeURIComponent(password), {
                 method: 'POST'
             })
             .then(response => response.json())
