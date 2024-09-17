@@ -9,6 +9,7 @@ import com.ojt.project.entity.WorkoutVideo;
 import com.ojt.project.service.WorkoutVideoService;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/workouts")
@@ -21,27 +22,45 @@ public class WorkoutVideoController {
         this.workoutService = workoutService;
     }
 
+    // Fetch all workouts (GET request)
     @GetMapping
-    public List<WorkoutVideo> getAllWorkouts() {
-        return workoutService.getAllWorkouts();
+    public ResponseEntity<List<WorkoutVideo>> getAllWorkouts() {
+        List<WorkoutVideo> workouts = workoutService.getAllWorkouts();
+        return new ResponseEntity<>(workouts, HttpStatus.OK);
     }
 
+    // Fetch workout by category and type (GET request)
     @GetMapping("/workoutdetails")
     public ResponseEntity<List<WorkoutVideo>> getWorkoutsByCategoryAndType(
             @RequestParam String workoutCategory,
             @RequestParam String workoutType) {
         List<WorkoutVideo> workouts = workoutService.getWorkoutsByCategoryAndType(workoutCategory, workoutType);
+        if (workouts.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
         return new ResponseEntity<>(workouts, HttpStatus.OK);
     }
 
+    // Add new workout (POST request)
     @PostMapping("/add")
     public ResponseEntity<WorkoutVideo> addWorkout(@RequestBody WorkoutVideo workoutVideo) {
         try {
             WorkoutVideo savedWorkout = workoutService.saveWorkout(workoutVideo);
             return new ResponseEntity<>(savedWorkout, HttpStatus.CREATED);
         } catch (Exception e) {
-            // Log the error and return a 400 Bad Request response
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+ 
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteWorkout(@PathVariable Long id) {
+        WorkoutVideo workoutVideo = workoutService.getWorkoutById(id);
+        if (workoutVideo != null) {
+            workoutService.deleteWorkout(id);
+            return ResponseEntity.ok("Workout deleted successfully.");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Workout not found.");
         }
     }
 }

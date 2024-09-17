@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Video</title>
+    <title>Fit4Life</title>
     <!-- Favicon -->
     
     <link
@@ -15,6 +15,7 @@
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Rubik&display=swap" rel="stylesheet"> 
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
     <!-- Icon Font Stylesheet -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/all.min.css" rel="stylesheet">
@@ -33,7 +34,7 @@
     <div class="container-fluid bg-dark px-0">
         <div class="row gx-0">
             <div class="col-lg-3 bg-dark d-none d-lg-flex align-items-center justify-content-center">
-                <a href="/Frontend/index.html" class="navbar-brand w-100 h-100 m-0 p-0 d-flex align-items-center justify-content-center">
+                <a href="index" class="navbar-brand w-100 h-100 m-0 p-0 d-flex align-items-center justify-content-center">
                     <img src="https://res.cloudinary.com/deup6t83x/image/upload/v1721236251/logo_pctu2u.png" alt="Fit4Life Logo" class="img-fluid logo-img">
                 </a>
             </div>
@@ -69,12 +70,18 @@
     <!-- Header End -->
 <!-- Main content wrapper -->
 <div class="container-fluid d-flex">
-    <div class="sidebar">
-        <h3>Workout Videos</h3>
-        <ul id="video-list">
-            <!-- List of workout videos will be added here dynamically -->
-        </ul>
-    </div>
+  <div class="sidebar">
+    <!-- The heading with back button -->
+    <h3 id="workout-heading">
+        <span id="back-button" class="back-btn">
+            <i class="fas fa-arrow-left"></i> <!-- Font Awesome back arrow icon -->
+        </span>
+        <span id="heading-text">Workout Videos</span>
+    </h3>
+    <ul id="video-list">
+        <!-- List of workout videos will be added here dynamically -->
+    </ul>
+</div>
     <div class="main-content">
         <h2 class="text-center mb-4" id="video-title">Video Title</h2>
 
@@ -84,7 +91,7 @@
             <button class="tab-btn" data-target="#how-to-do">How to Do</button>
         </div>
         <div id="animation" class="tab-content">
-            <video id="animation-video" autoplay muted controls loop>
+            <video id="animation-video" muted controls loop>
                 Your browser does not support the video tag.
             </video>
            <div id="timer-container">
@@ -185,6 +192,41 @@
     <script src="js/main.js"></script>
     <script src="js/video.js"></script>
     <script>
+ // Function to get URL parameters
+    function getUrlParams() {
+        const params = new URLSearchParams(window.location.search);
+        return {
+            title: params.get('title'),
+            type: params.get('type'),
+            category: params.get('category')
+        };
+    }
+
+    // Function to update the heading with category and type
+    function updateHeading() {
+        const { type, category } = getUrlParams();
+        const headingTextElement = document.getElementById('heading-text');
+        const backButton = document.getElementById('back-button');
+
+        if (category && type) {
+            // Set the heading text to "> Type"
+            headingTextElement.textContent = `${type}`;
+
+            // Back button should redirect to the category and type in workout.html
+            backButton.style.display = 'inline';  // Ensure back button is visible
+            backButton.addEventListener('click', function() {
+                window.location.href = `workout`;
+            });
+        } else {
+            // Default heading if URL parameters are missing
+            headingTextElement.textContent = 'Workout Videos';
+            backButton.style.display = 'none'; // Hide back button if no category or type is present
+        }
+    }
+
+    // Call the function on page load to update the heading
+    updateHeading();
+
  // Fetch Username From Database
     document.addEventListener('DOMContentLoaded', function () {
       fetch('/api/getSessionAttributes', {

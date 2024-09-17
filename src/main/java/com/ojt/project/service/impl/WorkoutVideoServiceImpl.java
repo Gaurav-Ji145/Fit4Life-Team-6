@@ -8,6 +8,7 @@ import com.ojt.project.repository.WorkoutVideoRepository;
 import com.ojt.project.service.WorkoutVideoService;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class WorkoutVideoServiceImpl implements WorkoutVideoService {
@@ -19,18 +20,34 @@ public class WorkoutVideoServiceImpl implements WorkoutVideoService {
         this.workoutRepository = workoutRepository;
     }
 
+    // Get all workouts
     @Override
     public List<WorkoutVideo> getAllWorkouts() {
         return workoutRepository.findAll();
     }
 
+    // Get workouts by category and type
     @Override
     public List<WorkoutVideo> getWorkoutsByCategoryAndType(String workoutCategory, String workoutType) {
         return workoutRepository.findByWorkoutCategoryAndWorkoutType(workoutCategory, workoutType);
     }
 
+    // Get workout by ID
+    @Override
+    public WorkoutVideo getWorkoutById(Long id) {
+        Optional<WorkoutVideo> workoutVideo = workoutRepository.findById(id);
+        return workoutVideo.orElse(null);
+    }
+
+    // Save or update workout
     @Override
     public WorkoutVideo saveWorkout(WorkoutVideo workoutVideo) {
         return workoutRepository.save(workoutVideo);
+    }
+
+    // Delete workout by IDs
+    @Override
+    public void deleteWorkout(Long id) {
+        workoutRepository.deleteById(id);
     }
 }

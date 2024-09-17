@@ -3,16 +3,12 @@ package com.ojt.project.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.ojt.project.entity.ContactForm;
 import com.ojt.project.service.ContactService;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api")
@@ -26,16 +22,30 @@ public class ContactController {
         this.contactService = contactService;
     }
 
+    // Submit Contact Form
     @PostMapping("/submitContactForm")
-    public ResponseEntity<String> submitContactForm(@Validated @RequestBody ContactForm contactForm) {
+    public ResponseEntity<String> submitContactForm(@RequestBody ContactForm contactForm) {
         contactService.saveContactForm(contactForm);
-        System.out.println("Contact Details Stored");
         return new ResponseEntity<>("Form submitted successfully!", HttpStatus.OK);
     }
 
+    // Fetch All Contact Forms
+    @GetMapping("/getAllContactForms")
+    public ResponseEntity<List<ContactForm>> getAllContactForms() {
+        List<ContactForm> contactForms = contactService.getAllContactForms();
+        return new ResponseEntity<>(contactForms, HttpStatus.OK);
+    }
+
+    // Delete a Contact Form by ID
+    @DeleteMapping("/deleteContactForm/{id}")
+    public ResponseEntity<String> deleteContactForm(@PathVariable Long id) {
+        contactService.deleteContactFormById(id);
+        return new ResponseEntity<>("Contact Form deleted successfully!", HttpStatus.OK);
+    }
+
+    // Handle exceptions
     @ExceptionHandler
     public ResponseEntity<String> handleException(Exception e) {
-        // Log the exception or handle it as needed
         return new ResponseEntity<>("An error occurred: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

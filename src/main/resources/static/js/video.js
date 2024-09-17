@@ -37,18 +37,43 @@ async function fetchVideosByCategoryAndType(category, type) {
 }
 
 // Function to render the list of videos and handle video selection
+// Function to render the list of videos and handle video selection
 function renderVideoList(videos) {
     const videoList = document.getElementById('video-list');
     videoList.innerHTML = ''; // Clear any existing videos
 
     videos.forEach(video => {
         const li = document.createElement('li');
-        li.textContent = video.workoutName;
-        li.addEventListener('click', () => displayVideoDetails(video)); // Handle video click to display details
+        const videoLink = document.createElement('a');
+        videoLink.textContent = video.workoutName;
+        videoLink.href = '#'; // Prevent actual navigation
+        videoLink.classList.add('video-link'); // Assign class for styling
+
+        // Handle video click to display details and set active class
+        videoLink.addEventListener('click', function (event) {
+            event.preventDefault(); // Prevent the default link behavior
+
+            // Remove 'active' class from all video links
+            document.querySelectorAll('.video-link').forEach(link => link.classList.remove('active'));
+
+            // Add 'active' class to the clicked link
+            videoLink.classList.add('active');
+
+            // Display the selected video's details
+            displayVideoDetails(video);
+        });
+
+        li.appendChild(videoLink);
         videoList.appendChild(li);
     });
-}
 
+    // Automatically select and display the first video if available
+    if (videos.length > 0) {
+        const firstLink = videoList.querySelector('.video-link');
+        firstLink.classList.add('active'); // Mark first video as active
+        displayVideoDetails(videos[0]);
+    }
+}
 // Function to display video details like name, animations, and instructions
 function displayVideoDetails(video) {
     document.getElementById('video-title').textContent = video.workoutName;

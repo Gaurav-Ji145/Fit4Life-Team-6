@@ -3,10 +3,14 @@ package com.ojt.project.controller;
 import java.util.Random;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import com.ojt.project.service.EmailService;
+
+import ch.qos.logback.core.model.Model;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -20,7 +24,6 @@ public class ForgotController {
     public String openEmailForm() {
         return "forgot";
     }
-
     @PostMapping("/send-otp")
     public String sendOTP(@RequestParam("email") String email, HttpSession session) {
         System.out.println("EMAIL " + email);
@@ -36,9 +39,9 @@ public class ForgotController {
 
         if (flag) {
             // Store OTP in session
-            session.setAttribute("otp", otp);
+            session.setAttribute("myOtp", otp);
             session.setAttribute("email", email);
-            session.setAttribute("message", "OTP has been sent successfully to your email.");
+            session.setAttribute("message", "OTP has been sent successfully to your email."); // Success message
 
             // Redirect to OTP verification page
             return "redirect:/verify-otp";
@@ -54,20 +57,30 @@ public class ForgotController {
         return "verify_otp";
     }
 
-    // Add POST method to verify OTP
     @PostMapping("/verify-otp")
-    public String verifyOTP(@RequestParam("otp") int inputOtp, HttpSession session) {
-        int sessionOtp = (int) session.getAttribute("otp");
+    public String verifyOtp(@RequestParam("otp") Integer otp, HttpSession session) {
+        Integer myOtp = (Integer) session.getAttribute("myOtp");
         String email = (String) session.getAttribute("email");
 
-        if (inputOtp == sessionOtp) {
+        if (myOtp != null && myOtp.equals(otp)) {
             // Proceed to reset password page or logic
-            session.setAttribute("message", "OTP verified successfully!");
-            return "redirect:/reset-password";
+            return "redirect:/reset_password";
         } else {
             // If OTP is incorrect
             session.setAttribute("message", "Invalid OTP. Please try again.");
-            return "redirect:/verify-otp";
+            return "redirect:/verify_otp";
+        }
+    }
+    @GetMapping("/reset_password")
+    public String showResetPasswordPage(HttpSession session, ModelMap model) {
+        String email = (String) session.getAttribute("email"); // Retrieve email from session
+        
+        if (email != null) {
+            model.addAttribute("email", email); // Pass email to the view
+            return "reset_password";
+        } else {
+            session.setAttribute("message", "Invalid session. Please try again.");
+            return "redirect:/forgot"; // Redirect if session is invalid
         }
     }
 }

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Login</title>
+    <title>Fit4Life</title>
     <link rel="icon" href="https://res.cloudinary.com/deup6t83x/image/upload/v1721236251/logo_pctu2u.png" type="image/x-icon">
     <link rel="stylesheet" href="css/login.css">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
@@ -32,6 +32,7 @@
                 <div class="text-fields password">
                     <label for="password"><i class='bx bx-lock-alt'></i></label>
                     <input type="password" name="password" id="password" placeholder="Enter password">
+                    <i class='bx bx-hide password-toggle' id="togglePassword"></i>
                 </div>
             </div>
             <input type="button" value="Login" onclick="submitLoginDetails()" class="nextPage">
@@ -41,7 +42,13 @@
 
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
     <script>
-
+    togglePassword.addEventListener('click', function () {
+        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+        password.setAttribute('type', type);
+        this.classList.toggle('bx-show');
+        this.classList.toggle('bx-hide');
+    });
+    
     function submitLoginDetails() {
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;

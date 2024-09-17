@@ -23,6 +23,34 @@
 
     <!--  css Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
+    <style>
+   .video-container {
+    position: relative;
+    width: 100vw; /* Full viewport width */
+    height: 100vh; /* Full viewport height */
+    overflow: hidden; /* Ensures no overflow */
+}
+
+.video-width {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    transform: translate(-50%, -50%);
+    object-fit: cover;
+}    
+
+ body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden; /* Prevents horizontal scroll */
+}
+
+
+    </style>
 
 </head>
 
@@ -31,7 +59,7 @@
     <div class="container-fluid bg-dark px-0">
         <div class="row gx-0">
             <div class="col-lg-3 bg-dark d-none d-lg-flex align-items-center justify-content-center">
-                <a href="/Frontend/index" class="navbar-brand w-100 h-100 m-0 p-0 d-flex align-items-center justify-content-center">
+                <a href="index" class="navbar-brand w-100 h-100 m-0 p-0 d-flex align-items-center justify-content-center">
                     <img src="https://res.cloudinary.com/deup6t83x/image/upload/v1721236251/logo_pctu2u.png" alt="Fit4Life Logo" class="img-fluid logo-img">
                 </a>
             </div>
@@ -67,57 +95,62 @@
     <!-- Header End -->
 
     <!-- Carousel Start -->
-    <div class="container-fluid p-0 mb-5">
-        <div id="header-carousel" class="carousel slide" data-bs-ride="carousel">
-            <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <video class="w-100" autoplay loop muted>
+<div class="container-fluid p-0 mb-5">
+    <div id="header-carousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <div class="video-container">
+                    <video class="video-width" autoplay loop muted>
                         <source src="https://res.cloudinary.com/deup6t83x/video/upload/v1721238592/vdo_tscewa.mp4" type="video/mp4">
                     </video>
-                    <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
-                        <div class="p-3" style="max-width: 900px;">
-                            <h1 class="display-2 text-white text-uppercase mb-md-4">Step Into Fitness Transform Your Life</h1>
-                            <a href="signup" class="btn btn-primary py-md-3 px-md-5 me-3 btn-register">Register</a>
-							<a href="contact" class="btn btn-light py-md-3 px-md-5 btn-contact">Contact Us</a>
-                        </div>
-                    </div>
                 </div>
-                <div class="carousel-item">
-                    <video class="w-100" autoplay loop muted>
-                        <source src="https://res.cloudinary.com/deup6t83x/video/upload/v1721238410/vdo3_c4jhyc.mp4" type="video/mp4">
-                    </video>
-                    <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
-                        <div class="p-3" style="max-width: 900px;">
-                            <h1 class="display-2 text-white text-uppercase mb-md-4">Unleash your potential lead a fit life</h1>
+                <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
+                    <div class="p-3" style="max-width: 900px;">
+                        <h1 class="display-2 text-white text-uppercase mb-md-4">Step Into Fitness Transform Your Life</h1>
                         <a href="signup" class="btn btn-primary py-md-3 px-md-5 me-3 btn-register">Register</a>
-						<a href="contact" class="btn btn-light py-md-3 px-md-5 btn-contact">Contact Us</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="carousel-item">
-                    <video class="w-100" autoplay loop muted>
-                        <source src="https://res.cloudinary.com/deup6t83x/video/upload/v1721237898/vdo2_aln6pf.mp4" type="video/mp4">
-                    </video>
-                    <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
-                        <div class="p-3" style="max-width: 900px;">
-                            <h1 class="display-2 text-white text-uppercase mb-md-4">Your best self is just a login away. Start now!</h1>
-                            <a href="signup" class="btn btn-primary py-md-3 px-md-5 me-3 btn-register">Register</a>
-							<a href="contact" class="btn btn-light py-md-3 px-md-5 btn-contact">Contact Us</a>
-                        </div>
+                        <a href="contact" class="btn btn-light py-md-3 px-md-5 btn-contact">Contact Us</a>
                     </div>
                 </div>
             </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#header-carousel" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#header-carousel" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-            </button>
+            <div class="carousel-item">
+                <div class="video-container">
+                    <video class="video-width" autoplay loop muted>
+                        <source src="https://res.cloudinary.com/deup6t83x/video/upload/v1721238410/vdo3_c4jhyc.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
+                    <div class="p-3" style="max-width: 900px;">
+                        <h1 class="display-2 text-white text-uppercase mb-md-4">Unleash your potential lead a fit life</h1>
+                        <a href="signup" class="btn btn-primary py-md-3 px-md-5 me-3 btn-register">Register</a>
+                        <a href="contact" class="btn btn-light py-md-3 px-md-5 btn-contact">Contact Us</a>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <div class="video-container">
+                    <video class="video-width" autoplay loop muted>
+                        <source src="https://res.cloudinary.com/deup6t83x/video/upload/v1721237898/vdo2_aln6pf.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
+                    <div class="p-3" style="max-width: 900px;">
+                        <h1 class="display-2 text-white text-uppercase mb-md-4">Your best self is just a login away. Start now!</h1>
+                        <a href="signup" class="btn btn-primary py-md-3 px-md-5 me-3 btn-register">Register</a>
+                        <a href="contact" class="btn btn-light py-md-3 px-md-5 btn-contact">Contact Us</a>
+                    </div>
+                </div>
+            </div>
         </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#header-carousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#header-carousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
     </div>
-    
+</div>
     <!-- Carousel End -->    
 
      <!--  Cards code start-->  

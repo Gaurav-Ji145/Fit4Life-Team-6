@@ -3,51 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Forgot Password</title>
+    <title>Fit4Life</title>
     <link rel="icon" href="https://res.cloudinary.com/deup6t83x/image/upload/v1721236251/logo_pctu2u.png" type="image/x-icon">
-    <link rel="stylesheet" href="css/login.css">
+    <link rel="stylesheet" href="css/reset_password.css"> <!-- Use reset_password.css -->
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
 <body>
     <div class="container">
-        <div class="close-button" onclick="redirectToIndex()">×</div>
-        <div class="login-link">
+        <div class="close-button" onclick="redirectToLogin()">×</div>
+        <div class="form-box">
             <div class="logo">
                 <i class='bx bx-pencil'></i>
                 <span class="text">Fit4Life</span>
             </div>
-            <p class="side-big-hedaing">Forgot your password?</p>
-            <p class="primary-bg-text">Enter your email address below, and we'll send you instructions on how to reset your password.</p>
-            <a href="signup.html" class="loginbtn">Create Account</a>
-        </div>
-        
-        <!-- forgot.html -->
-<div class="login-form-contents">
-    <form id="forgotPasswordForm" method="post" action="/send-otp">
-        <p class="big-heading">Reset your password</p>
-        
-        <!-- Display session message if exists -->
-        <c:if test="${not empty sessionScope.message}">
-           <!-- <div class="alert alert-success">
-                ${sessionScope.message}
-            </div> -->
-        </c:if>
+            <p class="side-big-heading">Forgot your password?</p>
+            <p class="primary-bg-text">Enter your email address below.</p>
 
-        <div class="text-fields email">
-            <label for="email"><i class='bx bx-envelope'></i></label>
-            <input type="email" name="email" id="email" placeholder="Enter your email id" required>
-        </div>
-        <input type="submit" value="Send OTP" class="nextPage">
-    </form>
-</div>
-     
+            <!-- Display session messages -->
+            <div class="message">
+                <c:if test="${not empty sessionScope.successMessage}">
+                    <div class="alert alert-success">
+                        ${sessionScope.successMessage}
+                    </div>
+                </c:if>
+                
+                <c:if test="${not empty sessionScope.errorMessage}">
+                    <div class="alert alert-error">
+                        ${sessionScope.errorMessage}
+                    </div>
+                </c:if>
+            </div>
 
+            <form id="forgotPasswordForm" method="post" action="/send-otp">
+                <div class="text-fields email">
+                    <label for="email"><i class='bx bx-envelope'></i></label>
+                    <input type="email" name="email" id="email" placeholder="Enter your email id" required>
+                </div>
+                <input type="submit" value="Send OTP" class="nextPage">
+            </form>
+        </div>
     </div>
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
     <script>
         // Function to redirect to index.html
-        function redirectToIndex() {
-            window.location.href = 'index';
+        function redirectToLogin() {
+            window.location.href = 'login';
         }
     </script>
 </body>

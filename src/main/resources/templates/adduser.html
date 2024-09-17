@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>Add User</title>
+    <title>Fit4Life</title>
     <meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no" name="viewport"/>
     <link rel="icon" href="https://res.cloudinary.com/deup6t83x/image/upload/v1721236251/logo_pctu2u.png" type="image/x-icon"/>
 
@@ -134,6 +134,16 @@
                         <span class="sub-item">Registered User</span>
                       </a>
                     </li>
+                      <li>
+                      <a href="workout_table">
+                        <span class="sub-item">WorkOuts</span>
+                      </a>
+                    </li>
+                    <li>
+                    <a href="message">
+                        <span class="sub-item">Contact Data</span>
+                      </a>
+                      </li>
                   </ul>
                 </div>
 
@@ -299,7 +309,7 @@
                     <div class="card-title">Add New User</div>
                   </div>
                   <div class="card-body">
-                    <form id="add-user-form" action="/adduser" method="post">
+                   <form id="add-user-form" action="/adduser" method="post">
                       <div class="row">
                         <!-- First Name -->
                         <div class="col-md-6">
@@ -386,6 +396,8 @@
                 </div>
               </div>
             </div>
+         
+         
           </div>
         </div>
 
@@ -400,108 +412,110 @@
     <!-- Sweet Alert -->
     <script src="Admin/assets/js/plugin/sweetalert/sweetalert.min.js"></script>
     
-    <script>
-      const form = document.getElementById('add-user-form');
-    
-      form.addEventListener('submit', function(event) {
-        let isValid = true;
-    
-        // Validate First Name
-        const firstName = document.getElementById('fname');
-        const firstNameError = document.getElementById('firstNameError');
-        if (firstName.value.trim() === '') {
-          firstNameError.textContent = 'First name is required.';
-          isValid = false;
-        } else {
-          firstNameError.textContent = '';
-        }
-    
-        // Validate Last Name
-        const lastName = document.getElementById('lname');
-        const lastNameError = document.getElementById('lastNameError');
-        if (lastName.value.trim() === '') {
-          lastNameError.textContent = 'Last name is required.';
-          isValid = false;
-        } else {
-          lastNameError.textContent = '';
-        }
-    
-        // Validate Date of Birth
-        const dob = document.getElementById('dob');
-        const dobError = document.getElementById('dobError');
-        if (dob.value === '') {
-          dobError.textContent = 'Date of birth is required.';
-          isValid = false;
-        } else {
-          dobError.textContent = '';
-        }
-    
-        // Validate Gender
-        const gender = document.getElementById('gender');
-        const genderError = document.getElementById('genderError');
-        if (gender.value === '') {
-          genderError.textContent = 'Gender selection is required.';
-          isValid = false;
-        } else {
-          genderError.textContent = '';
-        }
-    
-        // Validate Phone Number
-        const phoneNumber = document.getElementById('phone');
-        const phoneNumberError = document.getElementById('phoneNumberError');
-        const phonePattern = /^[0-9]{10}$/;
-        if (!phonePattern.test(phoneNumber.value)) {
-          phoneNumberError.textContent = 'Please enter a valid 10-digit phone number.';
-          isValid = false;
-        } else {
-          phoneNumberError.textContent = '';
-        }
-    
-        // Validate Email
-        const email = document.getElementById('email');
-        const emailError = document.getElementById('emailError');
-        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailPattern.test(email.value)) {
-          emailError.textContent = 'Please enter a valid email address.';
-          isValid = false;
-        } else {
-          emailError.textContent = '';
-        }
-    
-        // Validate Password
-        const password = document.getElementById('password');
-        const passwordError = document.getElementById('passwordError');
-        if (password.value.trim() === '') {
-          passwordError.textContent = 'Password is required.';
-          isValid = false;
-        } else {
-          passwordError.textContent = '';
-        }
-    
-        // Validate Confirm Password
-        const confirmPassword = document.getElementById('confirmPassword');
-        const confirmPasswordError = document.getElementById('confirmPasswordError');
-        if (confirmPassword.value !== password.value) {
-          confirmPasswordError.textContent = 'Passwords do not match.';
-          isValid = false;
-        } else {
-          confirmPasswordError.textContent = '';
-        }
-    
-        if (!isValid) {
-          event.preventDefault(); // Prevent form submission if validation fails
-        } else {
-          event.preventDefault(); // Prevent default form submission
-          swal({
-            title: "Success!",
-            text: "Your registration has been submitted successfully.",
-            icon: "success",
-            button: "OK"
-          }).then(() => {
-            form.submit(); // Submit the form programmatically after the alert
-          });
-        }
+   <script>
+  const form = document.getElementById('add-user-form');
+
+  form.addEventListener('submit', function(event) {
+    let isValid = true;
+
+    // Validate First Name
+    const firstName = document.getElementById('fname');
+    const firstNameError = document.getElementById('firstNameError');
+    if (firstName.value.trim() === '') {
+      firstNameError.textContent = 'First name is required.';
+      isValid = false;
+    } else {
+      firstNameError.textContent = '';
+    }
+
+    // Validate Last Name
+    const lastName = document.getElementById('lname');
+    const lastNameError = document.getElementById('lastNameError');
+    if (lastName.value.trim() === '') {
+      lastNameError.textContent = 'Last name is required.';
+      isValid = false;
+    } else {
+      lastNameError.textContent = '';
+    }
+
+    // Validate Date of Birth
+    const dob = document.getElementById('dob');
+    const dobError = document.getElementById('dobError');
+    if (dob.value === '') {
+      dobError.textContent = 'Date of birth is required.';
+      isValid = false;
+    } else {
+      dobError.textContent = '';
+    }
+
+    // Validate Gender
+    const gender = document.getElementById('gender');
+    const genderError = document.getElementById('genderError');
+    if (gender.value === '') {
+      genderError.textContent = 'Gender selection is required.';
+      isValid = false;
+    } else {
+      genderError.textContent = '';
+    }
+
+    // Validate Phone Number
+    const phoneNumber = document.getElementById('phone');
+    const phoneNumberError = document.getElementById('phoneNumberError');
+    const phonePattern = /^[0-9]{10}$/;
+    if (!phonePattern.test(phoneNumber.value)) {
+      phoneNumberError.textContent = 'Please enter a valid 10-digit phone number.';
+      isValid = false;
+    } else {
+      phoneNumberError.textContent = '';
+    }
+
+    // Validate Email
+    const email = document.getElementById('email');
+    const emailError = document.getElementById('emailError');
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(email.value)) {
+      emailError.textContent = 'Please enter a valid email address.';
+      isValid = false;
+    } else {
+      emailError.textContent = '';
+    }
+
+    // Validate Password
+    const password = document.getElementById('password');
+    const passwordError = document.getElementById('passwordError');
+    if (password.value.trim() === '') {
+      passwordError.textContent = 'Password is required.';
+      isValid = false;
+    } else {
+      passwordError.textContent = '';
+    }
+
+    // Validate Confirm Password
+    const confirmPassword = document.getElementById('confirmPassword');
+    const confirmPasswordError = document.getElementById('confirmPasswordError');
+    if (confirmPassword.value !== password.value) {
+      confirmPasswordError.textContent = 'Passwords do not match.';
+      isValid = false;
+    } else {
+      confirmPasswordError.textContent = '';
+    }
+
+    // Prevent form submission if validation fails
+    if (!isValid) {
+      event.preventDefault();
+    } else {
+      event.preventDefault(); // Prevent default form submission
+      swal({
+        title: "Success!",
+        text: "The user has been added successfully.",
+        icon: "success",
+        button: "OK"
+      }).then(() => {
+        form.submit(); // Submit the form programmatically after the alert
       });
-    </script>
+    }
+  });
+</script>
+
   </body>
 </html>

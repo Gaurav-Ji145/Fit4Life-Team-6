@@ -6,6 +6,8 @@ import com.ojt.project.service.ContactService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ContactServiceImpl implements ContactService {
 
@@ -19,5 +21,15 @@ public class ContactServiceImpl implements ContactService {
     @Override
     public void saveContactForm(ContactForm contactForm) {
         contactFormRepository.save(contactForm);
+    }
+
+    @Override
+    public List<ContactForm> getAllContactForms() {
+        return contactFormRepository.findAll(); // Fetch all contact form entries
+    }
+
+    @Override
+    public void deleteContactFormById(Long id) {
+        contactFormRepository.deleteById(id);   // Delete contact form by ID
     }
 }
