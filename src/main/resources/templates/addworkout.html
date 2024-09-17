@@ -462,6 +462,9 @@
 
     <!-- Kaiadmin JS -->
     <script src="Admin/assets/js/kaiadmin.min.js"></script>
+
+    <!-- Kaiadmin DEMO methods, don't include it in your project! -->
+    <script src="Admin/assets/js/setting-demo2.js"></script>
     <script>
     document.getElementById("WorkOutForm").addEventListener("submit", function(event) {
         event.preventDefault();  // Prevent traditional form submission
@@ -487,25 +490,24 @@
         };
 
         // Send POST request to save data
-fetch('https://fit4life-team-6-production.up.railway.app/workouts/add', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json'
-  },
-  body: JSON.stringify(data)
-})
-.then(response => {
-  if (!response.ok) {
-    throw new Error('Network response was not ok');
-  }
-  return response.json(); // Attempt to parse the response
-})
-.then(data => {
-  console.log('Success:', data);
-})
-.catch(error => {
-  console.error('Error:', error); // Handle any JSON or network errors
-});
+        fetch('https://fit4life-team-6-production.up.railway.app/workouts/add', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData),
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert('Successfully Added');
+
+            // Reset the form fields
+            document.getElementById("WorkOutForm").reset();
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+    });
 
     // Function to validate form fields
     function validateForm() {
