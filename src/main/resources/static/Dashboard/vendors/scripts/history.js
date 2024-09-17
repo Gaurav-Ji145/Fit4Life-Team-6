@@ -1,3 +1,4 @@
+// Function to render calendar and populate the workout summary table
 document.addEventListener('DOMContentLoaded', function () {
     const calendar = document.getElementById('calendar');
     const summaryTable = document.getElementById('summary-table');
@@ -6,7 +7,12 @@ document.addEventListener('DOMContentLoaded', function () {
     const nextButton = document.getElementById('next-month');
 
     let currentDate = new Date();
-    const today = new Date().toISOString().split('T')[0]; // Get current date in YYYY-MM-DD format
+
+    // Get the workout history from local storage
+    const videoHistory = JSON.parse(localStorage.getItem('videoHistory')) || {};
+
+    // Get today's date
+    const today = new Date().toISOString().split('T')[0];
 
     // Function to render the calendar
     function renderCalendar(date) {
@@ -42,45 +48,71 @@ document.addEventListener('DOMContentLoaded', function () {
             const dateElement = document.createElement('div');
             dateElement.className = 'calendar-day';
             dateElement.textContent = day;
-            dateElement.dataset.date = dateString; // Add data-date attribute for identifying the date
+            dateElement.dataset.date = dateString;
 
-            // Highlight today's date
             if (dateString === today) {
                 dateElement.classList.add('highlight');
             }
 
-            // Fetch and check workout data for this date
-            getWorkoutDataForDate(dateString, (hasWorkoutData) => {
-                if (hasWorkoutData) {
-                    dateElement.classList.add('workout-day');
-                }
-            });
+            if (videoHistory[dateString]) {
+                dateElement.classList.add('workout-day');
+            }
 
             calendar.appendChild(dateElement);
         }
     }
 
-    // Function to check if there is workout data for the given date
-    function getWorkoutDataForDate(date, callback) {
-        fetch(`/fit4life/userAttendance?date=${date}`)
-        .then(response => response.json())
-        .then(data => {
-            callback(data.length > 0); // If the response has data, mark it as a workout day
-        })
-        .catch(error => console.error('Error fetching workout data:', error));
+    // Function to format the duration as MM:SS
+    function formatDuration(seconds) {
+        const minutes = Math.floor(seconds / 60);
+        const remainingSeconds = Math.floor(seconds % 60);
+        return `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
     }
 
-    // Function to handle the calendar navigation
-    prevButton.addEventListener('click', function () {
-        currentDate.setMonth(currentDate.getMonth() - 1);
-        renderCalendar(currentDate);
+    // Populate the workout summary table
+    function populateSummaryTable(date) {
+        summaryTable.innerHTML = ''; // Clear existing summary table
+
+        if (videoHistory[date]) {
+            const videoArray = Array.isArray(videoHistory[date]) ? videoHistory[date] : [];
+
+            videoArray.forEach(video => {
+                if (video && typeof video.name === 'string' && typeof video.duration === 'number') {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${date}</td>
+                        <td>${video.name}</td>
+                        <td>${formatDuration(video.duration)}</td>
+                    `;
+                    summaryTable.appendChild(row);
+                } else {
+                    console.error(`Invalid video data for ${date}:`, video);
+                }
+            });
+        } else {
+            const row = document.createElement('tr');
+            row.innerHTML = `<td colspan="3">No workout data for ${date}</td>`;
+            summaryTable.appendChild(row);
+        }
+    }
+
+    // Event listener for calendar day clicks
+    calendar.addEventListener('click', function (event) {
+        const target = event.target;
+        if (target.classList.contains('calendar-day') && target.dataset.date) {
+            const selectedDate = target.dataset.date;
+            populateSummaryTable(selectedDate);
+        }
     });
 
-    nextButton.addEventListener('click', function () {
-        currentDate.setMonth(currentDate.getMonth() + 1);
-        renderCalendar(currentDate);
+    // Listen for workout data updates and refresh the table
+    window.addEventListener('workoutDataUpdated', function (event) {
+        const { date } = event.detail;
+        populateSummaryTable(date); // Refresh the summary table
+        renderCalendar(currentDate); // Update the calendar to reflect the workout day
     });
 
     // Initial render
     renderCalendar(currentDate);
+    populateSummaryTable(today); // Show today's data initially
 });

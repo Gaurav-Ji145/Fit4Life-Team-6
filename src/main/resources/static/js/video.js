@@ -14,6 +14,9 @@ function handleTabSwitching() {
             target.classList.add('active');
             tabs.forEach(t => t.classList.remove('active'));
             tab.classList.add('active');
+            
+            // Reset timer but do not start it when switching exercises
+            resetTimer();
         });
     });
 
@@ -36,7 +39,6 @@ async function fetchVideosByCategoryAndType(category, type) {
     }
 }
 
-// Function to render the list of videos and handle video selection
 // Function to render the list of videos and handle video selection
 function renderVideoList(videos) {
     const videoList = document.getElementById('video-list');
@@ -61,6 +63,9 @@ function renderVideoList(videos) {
 
             // Display the selected video's details
             displayVideoDetails(video);
+
+            // Reset timer when switching to a new video
+            resetTimer();
         });
 
         li.appendChild(videoLink);
@@ -74,6 +79,7 @@ function renderVideoList(videos) {
         displayVideoDetails(videos[0]);
     }
 }
+
 // Function to display video details like name, animations, and instructions
 function displayVideoDetails(video) {
     document.getElementById('video-title').textContent = video.workoutName;
@@ -100,6 +106,116 @@ function setVideoSource(elementId, url) {
     }
 }
 
+// Timer and workout tracking
+let videoStartTime = null;
+let isPlaying = false;
+let countdownInterval;
+let timeElapsed = 0; // Timer starts at 0
+
+const startButton = document.getElementById('start-button');
+const timerElement = document.getElementById('timer');
+
+// Remove autoplay and hide controls initially for the video
+document.getElementById('animation-video').removeAttribute('autoplay');
+document.getElementById('animation-video').controls = false;
+
+// Function to reset the timer and stop the video
+function resetTimer() {
+    timeElapsed = 0; // Reset the elapsed time to 0
+    updateTimerDisplay(0); // Display 00:00 on the timer
+    stopTimer(); // Stop any running timers
+    isPlaying = false;
+    startButton.textContent = 'Start'; // Reset button text
+}
+
+// Function to start or stop the video and timer
+startButton.addEventListener('click', function () {
+    let currentVideo = getCurrentVideo();
+
+    if (isPlaying) {
+        // Stop the video, timer, and tracking
+        if (currentVideo) {
+            currentVideo.pause();
+            const endTime = new Date();
+            const duration = (endTime - videoStartTime) / 1000; // duration in seconds
+            saveWorkoutHistory(document.getElementById('video-title').textContent, duration);
+            startButton.textContent = 'Start';
+            isPlaying = false;
+            stopTimer(); // Stop the timer
+            currentVideo.controls = true; // Show controls when stopped
+        }
+    } else {
+        // Start the video, timer, and tracking
+        if (currentVideo) {
+            currentVideo.play().catch(error => {
+                console.error('Error playing video:', error);
+            });
+            videoStartTime = new Date();
+            startButton.textContent = 'Stop';
+            isPlaying = true;
+            startTimer(); // Start the timer
+            currentVideo.controls = false; // Hide controls when playing
+        }
+    }
+});
+
+// Helper function to get the current video element
+function getCurrentVideo() {
+    // Return the currently visible video element
+    const activeTab = document.querySelector('.tab-content.active');
+    return activeTab.querySelector('video');
+}
+
+// Function to save workout history to localStorage
+// Function to save workout history to localStorage and trigger an update in history.js
+function saveWorkoutHistory(videoTitle, duration) {
+    let videoHistory = JSON.parse(localStorage.getItem('videoHistory')) || {};
+    const today = new Date().toISOString().split('T')[0]; // Get today's date in YYYY-MM-DD format
+
+    if (!videoHistory[today]) {
+        videoHistory[today] = [];
+    }
+
+    const existingEntry = videoHistory[today].find(video => video.name === videoTitle);
+
+    if (existingEntry) {
+        existingEntry.duration += duration;
+    } else {
+        videoHistory[today].push({ name: videoTitle, duration });
+    }
+
+    localStorage.setItem('videoHistory', JSON.stringify(videoHistory));
+
+    // Dispatch a custom event to notify history.js that data has been updated
+    const event = new CustomEvent('workoutDataUpdated', {
+        detail: { date: today, videoTitle, duration }
+    });
+    window.dispatchEvent(event);
+}
+
+
+// Function to start the timer
+function startTimer() {
+    clearInterval(countdownInterval); // Clear any previous interval
+
+    countdownInterval = setInterval(function () {
+        timeElapsed++;
+        updateTimerDisplay(timeElapsed);
+    }, 1000);
+}
+
+// Function to stop the timer
+function stopTimer() {
+    clearInterval(countdownInterval); // Stop the timer
+}
+
+// Function to update the timer display
+function updateTimerDisplay(time) {
+    const minutes = Math.floor(time / 60);
+    const seconds = time % 60;
+    timerElement.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+}
+
 // Main function to be executed when the DOM content is loaded
 document.addEventListener('DOMContentLoaded', function () {
     const videoType = getQueryParam('type');
@@ -115,94 +231,6 @@ document.addEventListener('DOMContentLoaded', function () {
             renderVideoList(videos); // Render the list of videos
         })
         .catch(error => console.error('Error fetching videos:', error));
-
-    // Initialize tab switching functionality
-    handleTabSwitching();
-});
-
-document.addEventListener('DOMContentLoaded', function () {
-    const startButton = document.getElementById('start-button');
-    const animationVideo = document.getElementById('animation-video');
-    const timerElement = document.getElementById('timer');
-
-    let videoStartTime = null;
-    let isPlaying = false;
-    let countdownInterval;
-    let timeElapsed = 0; // Start time at 0
-
-    // Remove autoplay and hide controls initially
-    animationVideo.removeAttribute('autoplay');
-    animationVideo.controls = false;
-    
-    startButton.addEventListener('click', function () {
-        let currentVideo = getCurrentVideo();
-
-        if (isPlaying) {
-            // Stop the video, timer, and tracking
-            if (currentVideo) {
-                currentVideo.pause();
-                const endTime = new Date();
-                const duration = (endTime - videoStartTime) / 1000; // duration in seconds
-                saveWorkoutHistory(document.getElementById('video-title').textContent, duration);
-                startButton.textContent = 'Start';
-                isPlaying = false;
-                clearInterval(countdownInterval); // Stop the timer
-                currentVideo.controls = true; // Show controls when stopped
-            }
-        } else {
-            // Start the video, timer, and tracking
-            if (currentVideo) {
-                currentVideo.play().catch(error => {
-                    console.error('Error playing video:', error);
-                });
-                videoStartTime = new Date();
-                startButton.textContent = 'Stop';
-                isPlaying = true;
-                startTimer(); // Start the timer
-                currentVideo.controls = false; // Hide controls when playing
-            }
-        }
-    });
-
-    function getCurrentVideo() {
-        // Return the currently visible video element
-        const activeTab = document.querySelector('.tab-content.active');
-        return activeTab.querySelector('video');
-    }
-
-    function saveWorkoutHistory(videoTitle, duration) {
-        let videoHistory = JSON.parse(localStorage.getItem('videoHistory')) || {};
-        const today = new Date().toISOString().split('T')[0]; // Get today's date in YYYY-MM-DD format
-
-        if (!videoHistory[today]) {
-            videoHistory[today] = [];
-        }
-
-        const existingEntry = videoHistory[today].find(video => video.name === videoTitle);
-
-        if (existingEntry) {
-            existingEntry.duration += duration;
-        } else {
-            videoHistory[today].push({ name: videoTitle, duration });
-        }
-
-        localStorage.setItem('videoHistory', JSON.stringify(videoHistory));
-    }
-
-    function startTimer() {
-        clearInterval(countdownInterval); // Clear any previous interval
-
-        countdownInterval = setInterval(function () {
-            timeElapsed++;
-            updateTimerDisplay(timeElapsed);
-        }, 1000);
-    }
-
-    function updateTimerDisplay(time) {
-        const minutes = Math.floor(time / 60);
-        const seconds = time % 60;
-        timerElement.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-    }
 
     // Initialize tab switching functionality
     handleTabSwitching();

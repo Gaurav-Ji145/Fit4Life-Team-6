@@ -73,14 +73,20 @@ public class ForgotController {
     }
     @GetMapping("/reset_password")
     public String showResetPasswordPage(HttpSession session, ModelMap model) {
-        String email = (String) session.getAttribute("email"); // Retrieve email from session
-        
-        if (email != null) {
-            model.addAttribute("email", email); // Pass email to the view
-            return "reset_password";
-        } else {
-            session.setAttribute("message", "Invalid session. Please try again.");
-            return "redirect:/forgot"; // Redirect if session is invalid
+        try {
+            String email = (String) session.getAttribute("email");
+            if (email != null) {
+                model.addAttribute("email", email);
+                return "reset_password";
+            } else {
+                session.setAttribute("message", "Invalid session. Please try again.");
+                return "redirect:/forgot";
+            }
+        } catch (Exception e) {
+            e.printStackTrace(); // Log the exception
+            session.setAttribute("message", "An error occurred: " + e.getMessage());
+            return "redirect:/forgot";
         }
     }
+
 }

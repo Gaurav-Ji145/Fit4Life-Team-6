@@ -54,13 +54,13 @@
                   <div class="card-title">Update User Data</div>
                 </div>
                 <div class="card-body">
-			<form id="updateUserForm">
+			<form id="updateUserForm" action="/users/update" method="post">
 			  <div class="row">
 			    <!-- First Name -->
 			    <div class="col-md-6">
 			      <div class="mb-3">
 			        <label for="fname" class="form-label highlight-label">First Name</label>
-			        <input type="text" class="form-control" id="fname" name="fname" placeholder="Enter your first name" />
+			        <input type="text" class="form-control" id="fname" name="fname" th:value="${user.fname}" placeholder="Enter your first name" />
 			        <small id="firstNameError" class="form-text text-danger"></small>
 			      </div>
 			    </div>
@@ -68,7 +68,7 @@
 			    <div class="col-md-6">
 			      <div class="mb-3">
 			        <label for="lname" class="form-label highlight-label">Last Name</label>
-			        <input type="text" class="form-control" id="lname" name="lname" placeholder="Enter your last name" />
+			        <input type="text" class="form-control" id="lname" name="lname" th:value="${user.lname}" placeholder="Enter your last name" />
 			        <small id="lastNameError" class="form-text text-danger"></small>
 			      </div>
 			    </div>
@@ -78,7 +78,7 @@
 			    <div class="col-md-6">
 			      <div class="mb-3">
 			        <label for="dob" class="form-label highlight-label">Date of Birth</label>
-			        <input type="date" class="form-control" id="dob" name="dob" />
+			        <input type="date" class="form-control" id="dob" name="dob" th:value="${user.dob}" />
 			        <small id="dobError" class="form-text text-danger"></small>
 			      </div>
 			    </div>
@@ -86,7 +86,7 @@
 			    <div class="col-md-6">
 			      <div class="mb-3">
 			        <label for="gender" class="form-label highlight-label">Gender</label>
-			        <select class="form-control" id="gender" name="gender">
+			        <select class="form-control" id="gender" name="gender" th:value="${user.gender}">
 			          <option value="" disabled>Select your gender</option>
 			          <option value="male">Male</option>
 			          <option value="female">Female</option>
@@ -101,7 +101,7 @@
 			    <div class="col-md-6">
 			      <div class="mb-3">
 			        <label for="phone" class="form-label highlight-label">Phone Number</label>
-			        <input type="tel" class="form-control" id="phone" name="phone" placeholder="Enter your phone number" />
+			        <input type="tel" class="form-control" id="phone" name="phone" placeholder="Enter your phone number" th:value="${user.phone}" />
 			        <small id="phoneNumberError" class="form-text text-danger"></small>
 			      </div>
 			    </div>
@@ -109,7 +109,7 @@
 			    <div class="col-md-6">
 			      <div class="mb-3">
 			        <label for="email" class="form-label highlight-label">Email</label>
-			        <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" />
+			        <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email"  th:value="${user.email}"/>
 			        <small id="emailError" class="form-text text-danger"></small>
 			      </div>
 			    </div>

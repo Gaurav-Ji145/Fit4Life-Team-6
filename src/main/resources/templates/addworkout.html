@@ -462,9 +462,6 @@
 
     <!-- Kaiadmin JS -->
     <script src="Admin/assets/js/kaiadmin.min.js"></script>
-
-    <!-- Kaiadmin DEMO methods, don't include it in your project! -->
-    <script src="Admin/assets/js/setting-demo2.js"></script>
     <script>
     document.getElementById("WorkOutForm").addEventListener("submit", function(event) {
         event.preventDefault();  // Prevent traditional form submission
@@ -490,7 +487,7 @@
         };
 
         // Send POST request to save data
-        fetch('/workouts/add', {
+        fetch('https://fit4life-team-6-production.up.railway.app/workouts/add', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

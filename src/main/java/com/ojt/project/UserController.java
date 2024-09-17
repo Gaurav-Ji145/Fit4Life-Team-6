@@ -3,14 +3,20 @@ package com.ojt.project;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -232,27 +238,39 @@ public class UserController {
         }
         return response;
     }
+    @PutMapping("/reset_password")
+    public ResponseEntity<Map<String, String>> resetPassword(@RequestBody Map<String, String> requestData) {
+        Map<String, String> response = new HashMap<>();
+        try {
+            String email = requestData.get("email");
+            String password = requestData.get("password");
+            String confirmPassword = requestData.get("confirmPassword");
 
-    @PostMapping("/reset-password")
-    public String resetPassword(@RequestParam String email, 
-                                @RequestParam String password, 
-                                @RequestParam String confirmPassword,
-                                Model model) {
-        // Check if the passwords match
-        if (!password.equals(confirmPassword)) {
-            model.addAttribute("error", "Passwords do not match.");
-            return "reset_password"; // Return to the reset password page
-        }
+            if (email == null || password == null || confirmPassword == null) {
+                throw new IllegalArgumentException("Missing required fields");
+            }
 
-        // Call UserService to update the user's password
-        boolean success = userService.updatePassword(email, password);
+            if (!password.equals(confirmPassword)) {
+                response.put("success", "false");
+                response.put("message", "Passwords do not match.");
+                return ResponseEntity.badRequest().body(response);
+            }
 
-        if (success) {
-            model.addAttribute("status", "Password successfully updated.");
-            return "login"; // Redirect to the login page after successful password reset
-        } else {
-            model.addAttribute("error", "Failed to update the password. Please try again.");
-            return "reset_password"; // Return to the reset password page
+            boolean success = userService.updatePassword(email, password);
+            if (success) {
+                response.put("success", "true");
+                response.put("message", "Password successfully updated.");
+                return ResponseEntity.ok(response);
+            } else {
+                response.put("success", "false");
+                response.put("message", "Failed to update the password. Please try again.");
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+            }
+        } catch (Exception e) {
+            e.printStackTrace(); // Log the exception
+            response.put("success", "false");
+            response.put("message", "An error occurred: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
 
@@ -270,4 +288,26 @@ public class UserController {
             return "adduser";
         }
     }
+    @GetMapping("/users/update/{id}")
+    public String updateUser(@PathVariable("id") Long id, Model model) {
+        Optional<User> user = userService.getUserById(id);
+        model.addAttribute("user", user);
+        return "update_user"; // Ensure this template exists
+    }
+    
+    @PostMapping("/users/update")
+    public String updateUser(@ModelAttribute User user, Model model) {
+        User updatedUser = userService.updateUser(user); // Update the user
+        model.addAttribute("user", updatedUser);
+        return "redirect:/data"; // Redirect to the data.html page
+    }
+
+
+    @GetMapping("/users/delete/{id}")
+    public String deleteUser(@PathVariable("id") Long id) {
+        userService.deleteUserById(id);
+        return "redirect:/data"; // Redirect back to the list of users
+    }
+
+
 }
