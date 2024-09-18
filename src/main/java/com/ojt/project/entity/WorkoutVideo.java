@@ -46,8 +46,8 @@ public class WorkoutVideo {
     @Column(name = "how_to_do_url")
     private String howToDoUrl;
 
-    @Column(name = "workout_duration")
-    private Integer workoutDuration;
+   /* @Column(name = "workout_duration")
+    private Integer workoutDuration;*/
 
     // Getters and Setters
 
@@ -139,11 +139,11 @@ public class WorkoutVideo {
         this.howToDoUrl = howToDoUrl;
     }
 
-    public Integer getWorkoutDuration() {
+   /* public Integer getWorkoutDuration() {
         return workoutDuration;
     }
 
     public void setWorkoutDuration(Integer workoutDuration) {
         this.workoutDuration = workoutDuration;
-    }
+    }*/
 }
