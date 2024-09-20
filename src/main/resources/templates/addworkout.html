@@ -387,7 +387,7 @@
       </div>
     </div>
   </div>
-  <!-- Duration Field -->
+  <!-- Duration Field 
   <div class="row">
     <div class="col-md-12">
       <div class="mb-3">
@@ -396,6 +396,7 @@
       </div>
     </div>
   </div>
+    -->
   <div class="d-flex justify-content-center mt-3">
     <button type="submit" class="btn btn-success me-2">Submit</button>
     <button type="reset" class="btn btn-danger">Cancel</button>
@@ -466,11 +467,11 @@
     document.getElementById("WorkOutForm").addEventListener("submit", function(event) {
         event.preventDefault();  // Prevent traditional form submission
 
-        const timeString = document.getElementById("duration").value;
+       /* const timeString = document.getElementById("duration").value;
         const timeParts = timeString.split(":");
         const hours = parseInt(timeParts[0], 10);
         const minutes = parseInt(timeParts[1], 10);
-        const totalMinutes = (hours * 60) + minutes;  // Convert to minutes
+        const totalMinutes = (hours * 60) + minutes;  // Convert to minutes*/
 
         const formData = {
             workoutCategory: document.getElementById("workoutCategory").value,
@@ -483,7 +484,7 @@
             animationUrl: document.getElementById("video1").value,
             musclesUrl: document.getElementById("video2").value,
             howToDoUrl: document.getElementById("video3").value,
-            workoutDuration: totalMinutes  // Send the duration in minutes
+           // workoutDuration: totalMinutes  // Send the duration in minutes
         };
 
         // Send POST request to save data

@@ -139,7 +139,11 @@ public class WorkoutVideo {
         this.howToDoUrl = howToDoUrl;
     }
 
+<<<<<<< HEAD
   /*  public Integer getWorkoutDuration() {
+=======
+   /* public Integer getWorkoutDuration() {
+>>>>>>> a56b3d462f1b2e4e46eaaf672007d82232f85b98
         return workoutDuration;
     }
 
