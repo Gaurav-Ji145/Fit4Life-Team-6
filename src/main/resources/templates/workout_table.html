@@ -353,7 +353,7 @@
               <th>Common_Mistakes</th>
               <th>Focus_Area</th>
               <th>Breathing_Tips</th>
-              <th>Duration</th>
+             <!-- <th>Duration</th>-->
               <th>Actions</th>
             </tr>
           </thead>
@@ -369,46 +369,43 @@
 
 <!-- Your existing script for fetching workouts -->
 <script>
-  let dataTableInitialized = false;
 
-  // Fetch and populate workout data
-  function fetchWorkouts() {
-    fetch('/workouts')
-      .then(response => response.json())
-      .then(data => {
-        const tableBody = document.getElementById('workoutTableBody');
-        tableBody.innerHTML = ''; // Clear the table body
-        data.forEach(workout => {
-          tableBody.innerHTML += `
-            <tr>
-              <td>${workout.workoutCategory}</td>
-              <td>${workout.workoutType}</td>
-              <td>${workout.workoutName}</td>
-              <td><textarea readonly class="form-control">${workout.animationUrl}</textarea></td>
-              <td><textarea readonly class="form-control">${workout.musclesUrl}</textarea></td>
-              <td><textarea readonly class="form-control">${workout.howToDoUrl}</textarea></td>
-              <td><textarea readonly class="form-control">${workout.instructions}</textarea></td>
-              <td><textarea readonly class="form-control">${workout.commonMistakes}</textarea></td>
-              <td><textarea readonly class="form-control">${workout.focusArea}</textarea></td>
-              <td><textarea readonly class="form-control">${workout.breathingTips}</textarea></td>
-              <td>${workout.workoutDuration}</td>
-              <td>
-                <a href="/workouts/update/${workout.workoutId}" class="text-success me-3">
-                  <i class="fas fa-edit"></i></a>
-                <a class="text-danger" onclick="deleteWorkout(${workout.workoutId})" style="padding-top:10px;">
-                  <i class="fas fa-trash-alt"></i></a>
-              </td>
-            </tr>
-          `;
-        });
+function fetchWorkouts() {
+  fetch('/workouts')
+    .then(response => response.json())
+    .then(data => {
+      const tableBody = document.getElementById('workoutTableBody');
+      tableBody.innerHTML = '';
+      data.forEach(workout => {
+        tableBody.innerHTML += `
+          <tr>
+            <td>${workout.workoutCategory}</td>
+            <td>${workout.workoutType}</td>
+            <td>${workout.workoutName}</td>
+            <td><textarea readonly class="form-control">${workout.animationUrl}</textarea></td>
+            <td><textarea readonly class="form-control">${workout.musclesUrl}</textarea></td>
+            <td><textarea readonly class="form-control">${workout.howToDoUrl}</textarea></td>
+            <td><textarea readonly class="form-control">${workout.instructions}</textarea></td>
+            <td><textarea readonly class="form-control">${workout.commonMistakes}</textarea></td>
+            <td><textarea readonly class="form-control">${workout.focusArea}</textarea></td>
+            <td><textarea readonly class="form-control">${workout.breathingTips}</textarea></td>
 
-        // Initialize the DataTable once data is loaded
-        if (!dataTableInitialized) {
-          initializeDataTable();
-          dataTableInitialized = true;
-        }
+            <td>
+              <a href="/workouts/update/${workout.workoutId}" class="text-success me-3">
+                <i class="fas fa-edit"></i></a>
+              <a class="text-danger" onclick="deleteWorkout(${workout.workoutId})" style="padding-top:10px;">
+                <i class="fas fa-trash-alt"></i></a>
+            </td>
+          </tr>
+        `;
       });
-  }
+
+      if (!dataTableInitialized) {
+        initializeDataTable();
+        dataTableInitialized = true;
+      }
+    });
+}
 
   // Initialize DataTable with multi-column filter
   function initializeDataTable() {

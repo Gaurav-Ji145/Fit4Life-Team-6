@@ -168,9 +168,9 @@ function getCurrentVideo() {
 
 // Function to save workout history to localStorage
 // Function to save workout history to localStorage and trigger an update in history.js
-function saveWorkoutHistory(videoTitle, duration) {
+async function saveWorkoutHistory(videoTitle, duration) {
     let videoHistory = JSON.parse(localStorage.getItem('videoHistory')) || {};
-    const today = new Date().toISOString().split('T')[0]; // Get today's date in YYYY-MM-DD format
+    const today = new Date().toISOString().split('T')[0];
 
     if (!videoHistory[today]) {
         videoHistory[today] = [];
@@ -186,7 +186,13 @@ function saveWorkoutHistory(videoTitle, duration) {
 
     localStorage.setItem('videoHistory', JSON.stringify(videoHistory));
 
-    // Dispatch a custom event to notify history.js that data has been updated
+    // Save to MySQL database through Spring Boot
+    await fetch('/api/attendance', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ date: today, videoTitle, duration })
+    });
+
     const event = new CustomEvent('workoutDataUpdated', {
         detail: { date: today, videoTitle, duration }
     });

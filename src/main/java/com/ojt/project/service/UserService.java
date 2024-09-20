@@ -47,19 +47,24 @@ public class UserService {
         return userRepository.save(user);
     }
     
-    // Method to update the user's password
-    public boolean updatePassword(String email, String password) {
+    public boolean updatePassword(String email, String newPassword) {
         try {
-            // Logic to update password
-            // Example: Update user password in database
-            return true; // Return true if successful
+            Optional<User> userOptional = userRepository.findByEmail(email);
+            if (userOptional.isPresent()) {
+                User user = userOptional.get();
+                user.setPassword(newPassword); // Consider encrypting the password here
+                userRepository.save(user);
+                return true;
+            } else {
+                System.out.println("User not found with email: " + email);
+                return false;
+            }
         } catch (Exception e) {
-            e.printStackTrace(); // Log the exception
+            System.err.println("Error updating password: " + e.getMessage());
+            e.printStackTrace();
             return false;
         }
     }
-
-
 
     // Method to get all users
     public List<User> getAllUsers() {

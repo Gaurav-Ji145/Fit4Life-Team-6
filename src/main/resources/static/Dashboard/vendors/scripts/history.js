@@ -1,4 +1,3 @@
-// Function to render calendar and populate the workout summary table
 document.addEventListener('DOMContentLoaded', function () {
     const calendar = document.getElementById('calendar');
     const summaryTable = document.getElementById('summary-table');
@@ -8,14 +7,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
     let currentDate = new Date();
 
-    // Get the workout history from local storage
-    const videoHistory = JSON.parse(localStorage.getItem('videoHistory')) || {};
+    // Fetch attendance data from the Spring Boot backend
+    async function fetchAttendanceData() {
+        const response = await fetch('/api/attendance');
+        if (!response.ok) {
+            throw new Error('Failed to fetch attendance data');
+        }
+        return await response.json();
+    }
 
-    // Get today's date
-    const today = new Date().toISOString().split('T')[0];
-
-    // Function to render the calendar
-    function renderCalendar(date) {
+    // Render the calendar
+    function renderCalendar(date, videoHistory) {
         calendar.innerHTML = `
             <div class="calendar-header">Sun</div>
             <div class="calendar-header">Mon</div>
@@ -50,10 +52,12 @@ document.addEventListener('DOMContentLoaded', function () {
             dateElement.textContent = day;
             dateElement.dataset.date = dateString;
 
-            if (dateString === today) {
+            // Highlight today's date
+            if (dateString === new Date().toISOString().split('T')[0]) {
                 dateElement.classList.add('highlight');
             }
 
+            // Mark days with workout data
             if (videoHistory[dateString]) {
                 dateElement.classList.add('workout-day');
             }
@@ -62,7 +66,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // Function to format the duration as MM:SS
+    // Format duration as MM:SS
     function formatDuration(seconds) {
         const minutes = Math.floor(seconds / 60);
         const remainingSeconds = Math.floor(seconds % 60);
@@ -70,12 +74,10 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Populate the workout summary table
-    function populateSummaryTable(date) {
-        summaryTable.innerHTML = ''; // Clear existing summary table
-
+    async function populateSummaryTable(date, videoHistory) {
+        summaryTable.innerHTML = '';
         if (videoHistory[date]) {
             const videoArray = Array.isArray(videoHistory[date]) ? videoHistory[date] : [];
-
             videoArray.forEach(video => {
                 if (video && typeof video.name === 'string' && typeof video.duration === 'number') {
                     const row = document.createElement('tr');
@@ -101,18 +103,28 @@ document.addEventListener('DOMContentLoaded', function () {
         const target = event.target;
         if (target.classList.contains('calendar-day') && target.dataset.date) {
             const selectedDate = target.dataset.date;
-            populateSummaryTable(selectedDate);
+            populateSummaryTable(selectedDate, videoHistory);
         }
     });
 
     // Listen for workout data updates and refresh the table
     window.addEventListener('workoutDataUpdated', function (event) {
         const { date } = event.detail;
-        populateSummaryTable(date); // Refresh the summary table
-        renderCalendar(currentDate); // Update the calendar to reflect the workout day
+        populateSummaryTable(date, videoHistory);
+        renderCalendar(currentDate, videoHistory);
     });
 
     // Initial render
-    renderCalendar(currentDate);
-    populateSummaryTable(today); // Show today's data initially
+    fetchAttendanceData().then(videoHistory => {
+        const formattedHistory = videoHistory.reduce((acc, record) => {
+            if (!acc[record.date]) {
+                acc[record.date] = [];
+            }
+            acc[record.date].push({ name: record.videoTitle, duration: record.duration });
+            return acc;
+        }, {});
+
+        renderCalendar(currentDate, formattedHistory);
+        populateSummaryTable(new Date().toISOString().split('T')[0], formattedHistory);
+    }).catch(error => console.error('Error fetching attendance data:', error));
 });

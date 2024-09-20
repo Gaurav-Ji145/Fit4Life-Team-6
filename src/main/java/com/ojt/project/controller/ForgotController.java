@@ -3,14 +3,11 @@ package com.ojt.project.controller;
 import java.util.Random;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import com.ojt.project.service.EmailService;
 
-import ch.qos.logback.core.model.Model;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -71,22 +68,5 @@ public class ForgotController {
             return "redirect:/verify_otp";
         }
     }
-    @GetMapping("/reset_password")
-    public String showResetPasswordPage(HttpSession session, ModelMap model) {
-        try {
-            String email = (String) session.getAttribute("email");
-            if (email != null) {
-                model.addAttribute("email", email);
-                return "reset_password";
-            } else {
-                session.setAttribute("message", "Invalid session. Please try again.");
-                return "redirect:/forgot";
-            }
-        } catch (Exception e) {
-            e.printStackTrace(); // Log the exception
-            session.setAttribute("message", "An error occurred: " + e.getMessage());
-            return "redirect:/forgot";
-        }
-    }
-
+   
 }

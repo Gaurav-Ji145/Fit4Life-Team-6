@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -238,42 +239,7 @@ public class UserController {
         }
         return response;
     }
-    @PutMapping("/reset_password")
-    public ResponseEntity<Map<String, String>> resetPassword(@RequestBody Map<String, String> requestData) {
-        Map<String, String> response = new HashMap<>();
-        try {
-            String email = requestData.get("email");
-            String password = requestData.get("password");
-            String confirmPassword = requestData.get("confirmPassword");
-
-            if (email == null || password == null || confirmPassword == null) {
-                throw new IllegalArgumentException("Missing required fields");
-            }
-
-            if (!password.equals(confirmPassword)) {
-                response.put("success", "false");
-                response.put("message", "Passwords do not match.");
-                return ResponseEntity.badRequest().body(response);
-            }
-
-            boolean success = userService.updatePassword(email, password);
-            if (success) {
-                response.put("success", "true");
-                response.put("message", "Password successfully updated.");
-                return ResponseEntity.ok(response);
-            } else {
-                response.put("success", "false");
-                response.put("message", "Failed to update the password. Please try again.");
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
-            }
-        } catch (Exception e) {
-            e.printStackTrace(); // Log the exception
-            response.put("success", "false");
-            response.put("message", "An error occurred: " + e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
-        }
-    }
-
+  
     @PostMapping("/adduser")
     public String addUser(@Valid @ModelAttribute User user, BindingResult result, Model model) {
         if (result.hasErrors()) {
@@ -288,6 +254,7 @@ public class UserController {
             return "adduser";
         }
     }
+    
     @GetMapping("/users/update/{id}")
     public String updateUser(@PathVariable("id") Long id, Model model) {
         Optional<User> user = userService.getUserById(id);
@@ -308,6 +275,52 @@ public class UserController {
         userService.deleteUserById(id);
         return "redirect:/data"; // Redirect back to the list of users
     }
+    
+    @GetMapping("/reset_password")
+    public String showResetPasswordPage(HttpSession session, ModelMap model) {
+        try {
+            String email = (String) session.getAttribute("email");
+            if (email != null) {
+                model.addAttribute("email", email);
+                return "reset_password";
+            } else {
+                session.setAttribute("message", "Invalid session. Please try again.");
+                return "redirect:/forgot";
+            }
+        } catch (Exception e) {
+            e.printStackTrace(); // Log the exception
+            session.setAttribute("message", "An error occurred: " + e.getMessage());
+            return "redirect:/forgot";
+        }
+    }
+    @PutMapping("/reset_password")
+    @ResponseBody
+    public Map<String, String> resetPassword1(@RequestBody Map<String, String> request) {
+        String email = request.get("email");
+        String newPassword = request.get("password");
+        String confirmPassword = request.get("confirmPassword");
+
+        Map<String, String> response = new HashMap<>();
+
+        if (!newPassword.equals(confirmPassword)) {
+            response.put("success", "false");
+            response.put("message", "Passwords do not match");
+            return response;
+        }
+
+        boolean updated = userService.updatePassword(email, newPassword);
+
+        if (updated) {
+            response.put("success", "true");
+            response.put("message", "Password updated successfully");
+        } else {
+            response.put("success", "false");
+            response.put("message", "Failed to update password");
+        }
+
+        return response;
+    }
+
 
 
 }
