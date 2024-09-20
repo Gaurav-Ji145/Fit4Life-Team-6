@@ -1,10 +1,10 @@
 package com.ojt.project.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Column;
 import jakarta.persistence.Table;
 
 @Entity
@@ -45,11 +45,6 @@ public class WorkoutVideo {
 
     @Column(name = "how_to_do_url")
     private String howToDoUrl;
-
-   /* @Column(name = "workout_duration")
-    private Integer workoutDuration;*/
-
-    // Getters and Setters
 
     public Long getWorkoutId() {
         return workoutId;
@@ -139,15 +134,4 @@ public class WorkoutVideo {
         this.howToDoUrl = howToDoUrl;
     }
 
-<<<<<<< HEAD
-  /*  public Integer getWorkoutDuration() {
-=======
-   /* public Integer getWorkoutDuration() {
->>>>>>> a56b3d462f1b2e4e46eaaf672007d82232f85b98
-        return workoutDuration;
-    }
-
-    public void setWorkoutDuration(Integer workoutDuration) {
-        this.workoutDuration = workoutDuration;
-    }*/
 }
