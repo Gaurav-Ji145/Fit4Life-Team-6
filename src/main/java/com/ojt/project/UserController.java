@@ -42,6 +42,11 @@ public class UserController {
     public String getWorkoutPage() {
         return "workout";
     }
+    
+    @GetMapping("/diet")
+    public String getDietchartPage() {
+        return "diet";
+    }
 
     @GetMapping("/about")
     public String getAboutPage() {
