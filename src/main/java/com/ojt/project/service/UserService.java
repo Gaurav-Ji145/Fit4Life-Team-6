@@ -13,7 +13,7 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
-
+    
     // Method to authenticate user by email and password
     public User authenticate(String email, String password) {
         Optional<User> userOptional = userRepository.findByEmailAndPassword(email, password);

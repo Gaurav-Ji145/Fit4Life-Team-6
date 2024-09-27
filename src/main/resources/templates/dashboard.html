@@ -158,28 +158,21 @@
 					</form>
 				</div>
 			</div>
-			
-			<div class="user-info-dropdown">
-					<div class="dropdown">
-						<a
-							class="dropdown-toggle"
-							href="#"
-							role="button"
-							data-toggle="dropdown"
-						>
-							<span class="user-icon">
-								<img src="https://res.cloudinary.com/deup6t83x/image/upload/v1726082990/userpic_uztmom.jpg" alt="" />
-							</span>
-							
-						</a>
-						<div
-							class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
-							<a class="dropdown-item" href="index"
-								><i class="dw dw-logout"></i> Log Out</a>
-						</div>
-					</div>
-				</div>
-		</div>
+    <div class="ml-auto user-info-dropdown">
+        <div class="dropdown">
+            <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown">
+                <span class="user-icon">
+                    <img src="https://res.cloudinary.com/deup6t83x/image/upload/v1726082990/userpic_uztmom.jpg" alt="User Picture" />
+                </span>
+                      <span class="navbar-text" id="usernameDisplay"></span> <!-- Username display -->
+            </a>
+             <div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
+        <a class="dropdown-item" href="#" id="dashboardLogout"><i class="dw dw-logout"></i> Log Out</a>
+    </div>
+        </div>
+    </div>
+</div>
+
 
 
 
@@ -346,33 +339,53 @@
 		></noscript>
 		<!-- End Google Tag Manager (noscript) -->
 		<script>
-			function checkLoginState() {
-				const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-				const username = localStorage.getItem('username');
-				const logoutButton = document.getElementById('logoutButton');
-				const userNameSpan = document.querySelector('.user-name');
-		
-				if (isLoggedIn && username) {
-					if (logoutButton) {
-						logoutButton.style.display = 'block'; // Show the logout button
-						logoutButton.onclick = function() {
-							localStorage.removeItem('isLoggedIn');
-							localStorage.removeItem('username');
-							window.location.href = "/"; // Redirect to index.html on logout
-						};
-					}
-		
-					if (userNameSpan) {
-						userNameSpan.textContent = username; // Display the username in the dashboard
-					}
-				} else {
-					// If not logged in, redirect to the login page
-					//window.location.href = "login";
-				}
-			}
-		
-			// Run the function to check login state on page load
-			document.addEventListener('DOMContentLoaded', checkLoginState);
-		</script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Fetch session attributes
+        fetch('/api/getSessionAttributes', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            const { isLoggedIn, fname } = data;
+            const usernameDisplay = document.getElementById('usernameDisplay');
+            const logoutButton = document.getElementById('dashboardLogout');
+
+            if (isLoggedIn && fname) {
+                // Display the username
+                usernameDisplay.textContent = `Welcome, ${fname}`;
+
+                // Set up the logout event
+                logoutButton.addEventListener('click', function () {
+                    fetch('/logout', {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            // Redirect to index after logout
+                            window.location.href = 'index';
+                        } else {
+                            console.error('Logout failed.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+                });
+            } else {
+                // Redirect to index if not logged in
+                window.location.href = 'index';
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    });
+</script>
 </body>
 </html>

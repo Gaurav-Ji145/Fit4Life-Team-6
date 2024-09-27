@@ -6,7 +6,7 @@
     box-sizing: border-box;
     font-family: "Poppins", sans-serif;
 }
-/* General styles */
+
 body {
     display: flex;
     justify-content: center;
@@ -17,14 +17,14 @@ body {
     background-size: cover;
     background-position: center;
     height: 100vh;
- 
 }
 
 .container {
     width: 80%;
     margin: 3% auto;
+    margin-bottom: 100px;
     display: flex;
-    flex-direction: row; /* Ensure items are in a row layout by default */
+    height: 623px;
     box-shadow: 0 12px 18px rgba(54, 176, 138, 0.005);
     border-radius: 6px;
     background: #F4F5F8;
@@ -41,7 +41,7 @@ body {
 }
 
 .close-button:hover {
-    color: red;
+    color: black;
 }
 
 .login-link {
@@ -55,7 +55,7 @@ body {
 
 .signup-form-container {
     width: 70%;
-    padding: 3%;
+    padding: 3% 0;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -144,10 +144,10 @@ a.loginbtn:hover {
     border: 1px solid #ccc;
     padding: 2%;
     margin: 0 2%;
-    width: 60%; /* Adjust to fill available width */
+    width: 46%;
     border-radius: 4px;
     color: #222429;
-    position: relative;
+    position: relative; /* Ensure the text-fields div is the reference point for absolute positioning */
 }
 
 input {
@@ -155,9 +155,9 @@ input {
     outline: none;
     background: inherit;
     color: #222429;
-    width: 120%; /* Adjust to fill available width */
-    font-size: 1rem;
+    width: 120%;
     margin-left: 4%;
+    font-size: 1rem;
 }
 
 .signup-form-content {
@@ -209,36 +209,28 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     content: 'Date of birth';
     background-color: #F4F5F8;
     position: relative;
-    padding: 0 4%;
-    left: -215px;
+    padding: 0 1%;
+    left: -184px;
     width: 342px;
     color: #FB5B21;
     top: -33px;
 }
 
-.gender-selection {
-    display: flex;
-    align-items: center;
-    margin-left: 4%;
-    width: 100%;
-}
 
 .fields-heading {
     color: #FB5B21;
     width: 20%;
 }
 
-.gender-selection label {
-    margin: 0 2%;
-    display: flex;
-    align-items: center;
+.gender-selection select {
+    width: 90%; 
+    margin-left: 10px;
+    padding: 10px; 
+    border-radius: 5px; 
+    border: none;
+	background-color: #F4F5F8;
+    font-size: 16px;
     color: #84848d;
-    width: 20%;
-}
-
-input[type="radio"] {
-    accent-color: #FB5B21;
-    margin-right: 6%;
 }
 
 .pagination-btns {
@@ -351,17 +343,16 @@ label.tc {
     display: block;
 }
 
-/* Login form */
+/*__Login form___ */
 .login-form-contents {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 100%; /* Adjust to fill available width */
 }
 
 .login-form-contents .text-fields {
     margin: 10% 3%;
-    width: 250%; /* Adjust to fill available width */
+    width: 250%;
     padding: 10%;
 }
 
@@ -381,7 +372,7 @@ label.tc {
     transition: all 0.3s ease;
 }
 
-/* Forgot Password Fields */
+/*___Forgot Password Fields____*/
 .forgot-password {
     color: #FB5B21;
     font-size: 0.9rem;
@@ -398,6 +389,36 @@ label.tc {
     position: relative;
 }
 
+/*____Password Validation_____*/
+.password-validation {
+    text-align: left;
+    margin-top: 5px;
+    color: #84848d;
+    display: none;
+    border: 1px solid #ccc;
+    background: #f9f9f9;
+    padding: 10px;
+    width: 200px;
+    position: absolute;
+    z-index: 1;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    top: 0;
+    left: -220px;
+    transition: all 0.3s ease-in-out;
+}
+
+.password-validation p {
+    margin: 5px 0;
+    font-size: 0.875rem;
+}
+
+.valid {
+    color: green;
+}
+
+.invalid {
+    color: red;
+}
 
 .password {
     position: relative;
@@ -420,12 +441,11 @@ label.tc {
 @media (max-width: 1200px) {
     .container {
         width: 90%;
-        height: auto;
-        flex-direction: column; /* Stack items vertically for smaller screens */
+        height: auto; /* Adjust height for smaller screens */
     }
 
     .login-link, .signup-form-container {
-        width: 120%;
+        width: 100%;
     }
 
     .signup-form-container {
@@ -465,7 +485,7 @@ label.tc {
 
     .password-validation {
         width: 100%;
-        left: 0;
+        left: 0; /* Adjust for full width */
     }
 
     .button-container {
@@ -473,7 +493,7 @@ label.tc {
     }
 
     .nextPage, .previousPage {
-        width: 50%;
+        width: 100%;
         margin-bottom: 1rem;
     }
 }
@@ -487,7 +507,6 @@ label.tc {
         width: 95%;
         height: auto;
         margin-bottom: 20px;
-        
     }
 
     .login-link {
@@ -508,13 +527,7 @@ label.tc {
     .login-form-contents .text-fields {
         width: 100%;
         padding: 5%;
-        
     }
-    
-     .login-form-contents{
-     
-     }
-    
 
     .progress-bar {
         flex-direction: column;
@@ -527,135 +540,6 @@ label.tc {
 
     .password-validation {
         width: 100%;
-        left: 0;
-    }
-}
-/* General styles for text fields */
-.text-fields {
-    display: flex;
-    align-items: center;
-    border: 1px solid #ccc;
-    padding: 2%;
-    margin: 0 2%;
-    border-radius: 4px;
-    color: #222429;
-    position: relative;
-    width: 100%; /* Default width for other sections */
-}
-
-input {
-    border: none;
-    outline: none;
-    background: inherit;
-    color: #222429;
-    width: 60%; /* Full width for input fields */
-    font-size: 1rem;
-}
-
-/* Specific styles for login page */
-.login-form-contents .text-fields {
-    width: 80%;
-    padding: 3%;
-    margin: 2% 0;
-
-}
-
-.login-form-contents {
-    width: 100%; /* Full width for the login form container */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-/* Adjust input widths and margins */
-.login-form-contents input {
-    width: calc(100% - 24px); /* Adjust to fit within padding and container width */
-    
-}
-
-/* Password Validation */
-.password-validation {
-    width: 100%; /* Full width for password validation messages */
-    left: 0;
-}
-/* General login button styles */
-a.loginbtn {
-    text-decoration: none;
-    color: #F4F5F8;
-    width: 70%;
-    font-weight: 500;
-    display: inline-block;
-    margin: 7% 15%;
-    text-align: center;
-    background-color: #FB5B21;
-    border-radius: 24px;
-    padding: 3% 0;
-}
-
-/* Hover effect */
-a.loginbtn:hover {
-    color: #0f0e0e;
-}
-
-/* Responsive Styles */
-@media (max-width: 1200px) {
-    a.loginbtn {
-        width: 70%; /* Adjust width for medium screens */
-        padding: 2% 0; /* Adjust padding */
-    }
-}
-
-@media (max-width: 900px) {
-    a.loginbtn {
-        width: 50%; /* Further adjust width for smaller screens */
-        padding: 2% 0; /* Adjust padding */
-    }
-}
-
-@media (max-width: 600px) {
-    a.loginbtn {
-        width: 50%; /* Full width for very small screens */
-        padding: 1.5% 0; /* Adjust padding */
-    }
-}
-/* General register button styles */
-a.registerbtn {
-    text-decoration: none;
-    color: #F4F5F8;
-    width: 50%;
-    font-weight: 500;
-    display: inline-block;
-    margin: 7% 15%;
-    text-align: center;
-    background-color: #FB5B21;
-    border-radius: 24px;
-    padding: 3% 0;
-    box-sizing: border-box; /* Ensure padding is included in width calculation */
-}
-
-/* Hover effect */
-a.registerbtn:hover {
-    color: #0f0e0e;
-}
-
-/* Responsive Styles */
-@media (max-width: 1200px) {
-    a.registerbtn {
-        width: 80%; /* Adjust width for medium screens */
-        padding: 2% 0; /* Adjust padding */
-    }
-}
-
-@media (max-width: 900px) {
-    a.registerbtn {
-        width: 90%; /* Further adjust width for smaller screens */
-        padding: 2% 0; /* Adjust padding */
-    }
-}
-
-@media (max-width: 600px) {
-    a.registerbtn {
-        width: 100%; /* Full width for very small screens */
-        padding: 1.5% 0; /* Adjust padding */
+        left: 0; /* Adjust for full width */
     }
 }

@@ -1,78 +1,54 @@
 <!DOCTYPE html>
-<!-- Coding by CodingLab | www.codinglabweb.com-->
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fit4Life</title>
-    <link
-      rel="icon"
-      href="https://res.cloudinary.com/deup6t83x/image/upload/v1721236251/logo_pctu2u.png"
-      type="image/x-icon"
-    />
-
-    <!-- CSS -->
-    <link rel="stylesheet" href="Dashboard/Email & Password Validation/css/style.css" />
-
-    <!-- Boxicons CSS -->
-    <link
-      href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css"
-      rel="stylesheet"
-    />
-  </head>
-  <body>
+    <link rel="icon" href="https://res.cloudinary.com/deup6t83x/image/upload/v1721236251/logo_pctu2u.png" type="image/x-icon">
+    <link rel="stylesheet" href="css/reset_password.css"> <!-- Use reset_password.css -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
     <div class="container">
-      <header>Reset Password</header>
-      <button class="close-btn" onclick="redirectToPage()">×</button>
-      <form action="/#">
-        <div class="field email-field">
-          <div class="input-field">
-            <input type="email" placeholder="Enter your email" class="email" />
-          </div>
-          <span class="error email-error">
-            <i class="bx bx-error-circle error-icon"></i>
-            <p class="error-text">Please enter a valid email</p>
-          </span>
-        </div>
-        <div class="field create-password">
-          <div class="input-field">
-            <input
-              type="password"
-              placeholder="Create password"
-              class="password"
-            />
-            <i class="bx bx-hide show-hide"></i>
-          </div>
-          <span class="error password-error">
-            <i class="bx bx-error-circle error-icon"></i>
-            <p class="error-text">
-              Please enter atleast 8 charatcer with number, symbol, small and
-              capital letter.
-            </p>
-          </span>
-        </div>
-        <div class="field confirm-password">
-          <div class="input-field">
-            <input
-              type="password"
-              placeholder="Confirm password"
-              class="cPassword"
-            />
-            <i class="bx bx-hide show-hide"></i>
-          </div>
-          <span class="error cPassword-error">
-            <i class="bx bx-error-circle error-icon"></i>
-            <p class="error-text">Password don't match</p>
-          </span>
-        </div>
-        <div class="input-field button">
-          <input type="submit" value="Submit Now"/>
-        </div>
-      </form>
-    </div>
+        <div class="close-button" onclick="redirectToLogin()">×</div>
+        <div class="form-box">
+            <div class="logo">
+                <i class='bx bx-pencil'></i>
+                <span class="text">Fit4Life</span>
+            </div>
+            <p class="side-big-heading">Reset your password?</p>
+            <p class="primary-bg-text">Enter your email address below.</p>
 
-    <!-- JavaScript -->
-    <script src="Dashboard/Email & Password Validation/js/script.js"></script>
-  </body>
+          <!--    Display session messages
+            <div class="message">
+                <c:if test="${not empty sessionScope.successMessage}">
+                    <div class="alert alert-success">
+                        ${sessionScope.successMessage}
+                    </div>
+                </c:if>
+                
+                <c:if test="${not empty sessionScope.errorMessage}">
+                    <div class="alert alert-error">
+                        ${sessionScope.errorMessage}
+                    </div>
+                </c:if>
+            </div> -->
+
+            <form id="forgotPasswordForm" method="post" action="/send-otp">
+                <div class="text-fields email">
+                    <label for="email"><i class='bx bx-envelope'></i></label>
+                    <input type="email" name="email" id="email" placeholder="Enter your email id" required>
+                </div>
+                <input type="submit" value="Send OTP" class="nextPage">
+            </form>
+        </div>
+    </div>
+    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+    <script>
+        // Function to redirect to index.html
+        function redirectToLogin() {
+            window.location.href = 'dashboard';
+        }
+    </script>
+</body>
 </html>

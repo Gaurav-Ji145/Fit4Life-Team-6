@@ -217,9 +217,8 @@ public class UserController {
             // Otherwise, redirect to the home page
             return "redirect:/index";
         } else {
-            // If authentication fails, show an error message
-            model.addAttribute("error", "Invalid email or password");
-            return "login";
+            model.addAttribute("status", "failed"); // Set the status to failed
+            return "login"; // Redirect back to login page
         }
     }
 
