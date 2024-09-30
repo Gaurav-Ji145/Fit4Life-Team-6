@@ -115,43 +115,95 @@
     background-color: rgba(251, 91, 33, 0.1);
 }
 @media (max-width: 768px) {
-    .table th, .table td {
-        font-size: 0.8rem; /* Further reduce font size for smaller screens */
-        padding: 6px; /* Less padding on mobile */
-    }
-}
-/* Image Styles */
-.exercise-img {
-    width: 100%;
-    height: auto;
-    margin-top: 10px;
-}
-
-/* Text Centering */
-.text-center {
-    margin-bottom: 20px;
-    text-align: center; /* Center text */
-}
-
-/* Media Queries for Responsiveness */
-@media (max-width: 768px) {
     .container {
         margin-top: 20px; /* Adjust margin for smaller screens */
     }
-    
+
     .btn-primary, .btn-secondary {
         width: 100%; /* Full width buttons on mobile */
         margin-bottom: 10px; /* Space between buttons */
     }
-    
+
     .form-card, .result-card {
         padding: 15px; /* Reduced padding for smaller screens */
     }
 }
-@media (max-width: 600px){
 
+/* Media Queries for Tablets (<= 768px) */
+@media (max-width: 768px) {
+    .result-card {
+        padding: 15px; /* Reduced padding for tablets */
+        width: 100%; /* Take full width of the screen */
+        margin-left: auto; /* Reset negative margin */
+        margin-right: auto;
+    }
+
+    .card-header {
+        font-size: 22px; /* Slightly smaller header font size on tablets */
+        padding: 8px;
+    }
+
+    .btn-primary, .btn-secondary {
+        width: 100%; /* Buttons take full width on tablet */
+        margin-bottom: 10px; /* Add space between buttons */
+        font-size: 0.9rem; /* Slightly smaller font size */
+    }
 }
 
+/* Media Queries for Mobile (<= 600px) */
+@media (max-width: 600px) {
+    .result-card {
+        padding: 10px; /* Further reduce padding for mobile */
+        width: 100%; /* Ensure the card is fully responsive on mobile */
+        background-color: none; /* Remove background color for screens <= 600px */
+        box-shadow: none; /* Remove shadow effect */
+    }
+
+    .card-header {
+        font-size: 20px; /* Smaller header font size on mobile */
+        padding: 5px;
+    }
+
+    .btn-primary, .btn-secondary {
+        padding: 12px 15px; /* Adjust padding for mobile */
+        font-size: 0.85rem; /* Even smaller font size for mobile */
+        width: 100%; /* Full-width buttons on mobile */
+    }
+}
+
+/* Media Queries for Smaller Mobile Devices (320px - 501px) */
+@media (max-width: 501px) {
+    .result-card {
+        padding: 8px; /* Reduce padding further for small mobile devices */
+        width: 100%; /* Ensure the card is fully responsive on small mobile */
+        background-color: none; /* No background color */
+        box-shadow: none; /* Remove shadow effect */
+    }
+
+    .card-header {
+        font-size: 18px; /* Smaller header font size for small screens */
+        padding: 4px;
+    }
+
+    .btn-primary, .btn-secondary {
+        padding: 10px 12px; /* Adjust button padding for smaller mobile */
+        font-size: 0.8rem; /* Smaller font size for buttons */
+        width: 100%; /* Full-width buttons */
+    }
+}
+
+.close-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 24px;
+            color: grey;
+            cursor: pointer;
+        }
+
+        .close-button:hover {
+            color: red;
+        }
 
 
     </style>
@@ -162,6 +214,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="form-card">
+                <div class="close-button" onclick="redirectToIndex()">×</div>
                     <h1 class="text-center mb-4">Diet Chart Generator</h1>
                     <div class="card-header text-center">Fill Your Details</div>
                     <div class="card-body">
@@ -412,6 +465,11 @@
         function downloadPDF() {
             const element = document.getElementById('dietDetails');
             html2pdf().from(element).save('diet-chart.pdf');
+        }
+        
+     // Function to redirect to index.html
+        function redirectToIndex() {
+            window.location.href = 'index';
         }
     </script>
     

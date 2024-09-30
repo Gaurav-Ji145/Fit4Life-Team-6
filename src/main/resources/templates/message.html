@@ -227,94 +227,52 @@
             <!-- End Logo Header -->
           </div>
           <!-- Navbar Header -->
-          <nav
-          class="navbar navbar-header navbar-header-transparent navbar-expand-lg border-bottom"
-        >
-          <div class="container-fluid">
-            <nav
-              class="navbar navbar-header-left navbar-expand-lg navbar-form nav-search p-0 d-none d-lg-flex"
-            >
-              <div class="input-group">
-                <div class="input-group-prepend">
-                  <button type="submit" class="btn btn-search pe-1">
-                    <i class="fa fa-search search-icon"></i>
-                  </button>
-                </div>
-                <input
-                  type="text"
-                  placeholder="Search ..."
-                  class="form-control"
-                />
-              </div>
-            </nav>
-
-            <ul class="navbar-nav topbar-nav ms-md-auto align-items-center">
-              <li
-                class="nav-item topbar-icon dropdown hidden-caret d-flex d-lg-none"
+         <nav
+            class="navbar navbar-header navbar-header-transparent navbar-expand-lg border-bottom"
+          >
+            <div class="container-fluid">
+              <nav
+                class="navbar navbar-header-left navbar-expand-lg navbar-form nav-search p-0 d-none d-lg-flex"
               >
-                <a
-                  class="nav-link dropdown-toggle"
-                  data-bs-toggle="dropdown"
-                  href="#"
-                  role="button"
-                  aria-expanded="false"
-                  aria-haspopup="true"
-                >
-                  <i class="fa fa-search"></i>
-                </a>
-                <ul class="dropdown-menu dropdown-search animated fadeIn">
-                  <form class="navbar-left navbar-form nav-search">
-                    <div class="input-group">
-                      <input
-                        type="text"
-                        placeholder="Search ..."
-                        class="form-control"
-                      />
-                    </div>
-                  </form>
-                </ul>
-              </li>
-              <li class="nav-item topbar-icon dropdown hidden-caret">
-                <a
-                  class="nav-link dropdown-toggle"
-                  href="#"
-                  id="messageDropdown"
-                  role="button"
-                  data-bs-toggle="dropdown"
-                  aria-haspopup="true"
-                  aria-expanded="false"
-                >
-                  <i class="fa fa-envelope"></i>
-                </a>
-                <li class="nav-item topbar-user dropdown hidden-caret">
-                  <a
-                    class="dropdown-toggle profile-pic"
-                    data-bs-toggle="dropdown"
-                    href="#"
-                    aria-expanded="false"
-                  >
-                    <div class="avatar-sm">
-                      <img
-                        src="https://res.cloudinary.com/deup6t83x/image/upload/v1725000463/admin_pic_sencpk.webp"
-                        alt="Profile Picture"
-                        class="avatar-img rounded-circle"
-                      />
-                    </div>
-                    <span class="profile-username">
-                      <span class="op-7">Hi,</span>
-                      <span class="fw-bold">Rahila</span>
-                    </span>
-                  </a>
-                  <ul class="dropdown-menu dropdown-user animated fadeIn">
-                    <li>
-                      <a class="dropdown-item" href="#">Logout</a>
-                    </li>
-                  </ul>
-                </li>
                 
-            </ul>
-          </div>
-        </nav>
+              </nav>
+
+              <ul class="navbar-nav topbar-nav ms-md-auto align-items-center">
+                
+                <li class="nav-item topbar-icon dropdown hidden-caret">
+                  <a
+                    href="https://mail.google.com/mail/u/0/?tab=rm&ogbl#inbox " target="_blank"
+                  >
+                    <i class="fa fa-envelope"></i>
+                  </a>
+                  <li class="nav-item topbar-user dropdown hidden-caret">
+                    <a
+                      class="dropdown-toggle profile-pic"
+                      data-bs-toggle="dropdown"
+                      href="#"
+                      aria-expanded="false"
+                    >
+                      <div class="avatar-sm">
+                        <img
+                          src="https://res.cloudinary.com/deup6t83x/image/upload/v1725000463/admin_pic_sencpk.webp"
+                          alt="Profile Picture"
+                          class="avatar-img rounded-circle"
+                        />
+                      </div>
+                      <span class="profile-username">
+                        <span class="fw-bold">Fit4Life</span>
+                      </span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-user animated fadeIn">
+                      <li>
+                        <a class="dropdown-item"  onclick="logout()" href="#">Logout</a>
+                      </li>
+                    </ul>
+                  </li>
+
+              </ul>
+            </div>
+          </nav>
           <!-- End Navbar -->
         </div>
 
@@ -370,55 +328,55 @@
 							</table>
 							
 							<script>
-  // Fetch and populate the table with contact forms
-  function populateTable() {
-    fetch('/api/getAllContactForms') // Fetch data from backend
-      .then(response => response.json())
-      .then(users => {
-        const tableBody = document.getElementById('userTableBody');
-        tableBody.innerHTML = ''; // Clear the table body
+			  // Fetch and populate the table with contact forms
+			  function populateTable() {
+			    fetch('/api/getAllContactForms') // Fetch data from backend
+			      .then(response => response.json())
+			      .then(users => {
+			        const tableBody = document.getElementById('userTableBody');
+			        tableBody.innerHTML = ''; // Clear the table body
+			
+			        users.forEach((user, index) => {
+			          const row = `
+			            <tr>
+			              <td>${user.name}</td>
+			              <td>${user.phone}</td>
+			              <td>${user.email}</td>
+			              <td><textarea readonly class="form-control">${user.message}</textarea></td>
+			              <td>
+			              <button class="delete-btn text-danger m-3" onclick="deleteUser(${user.id})">
+			              <i class="fas fa-trash-alt"></i> Delete
+			            </button>
+			              </td>
+			            </tr>
+			          `;
+			          tableBody.innerHTML += row;
+			        });
+			      })
+			      .catch(error => console.error('Error fetching data:', error));
+			  }
 
-        users.forEach((user, index) => {
-          const row = `
-            <tr>
-              <td>${user.name}</td>
-              <td>${user.phone}</td>
-              <td>${user.email}</td>
-              <td><textarea readonly class="form-control">${user.message}</textarea></td>
-              <td>
-              <button class="delete-btn text-danger m-3" onclick="deleteUser(${user.id})">
-              <i class="fas fa-trash-alt"></i> Delete
-            </button>
-              </td>
-            </tr>
-          `;
-          tableBody.innerHTML += row;
-        });
-      })
-      .catch(error => console.error('Error fetching data:', error));
-  }
-
-  // Delete user function
-  function deleteUser(id) {
-    fetch(`/api/deleteContactForm/${id}`, {
-      method: 'DELETE',
-    })
-    .then(response => {
-      if (response.ok) {
-        alert('User deleted successfully!');
-        populateTable(); // Refresh the table after deletion
-      } else {
-        alert('Failed to delete user.');
-      }
-    })
-    .catch(error => console.error('Error deleting user:', error));
-  }
-
-  // Call populateTable when the page loads
-  window.onload = function() {
-    populateTable();
-  };
-</script>
+			  // Delete user function
+			  function deleteUser(id) {
+			    fetch(`/api/deleteContactForm/${id}`, {
+			      method: 'DELETE',
+			    })
+			    .then(response => {
+			      if (response.ok) {
+			        alert('User deleted successfully!');
+			        populateTable(); // Refresh the table after deletion
+			      } else {
+			        alert('Failed to delete user.');
+			      }
+			    })
+			    .catch(error => console.error('Error deleting user:', error));
+			  }
+			
+			  // Call populateTable when the page loads
+			  window.onload = function() {
+			    populateTable();
+			  };
+			</script>
 
 
 			      </div>
@@ -441,6 +399,12 @@
     <script src="Admin/assets/js/kaiadmin.min.js"></script>
     <!-- Kaiadmin DEMO methods, don't include it in your project! -->
     <script src="Admin/assets/js/setting-demo2.js"></script>
+    <script>
+    function logout() {
+        localStorage.removeItem('authToken'); 
+        window.location.href = 'index'; 
+    }
+</script>
     
   </body>
 </html>

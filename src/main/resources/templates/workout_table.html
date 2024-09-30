@@ -34,6 +34,16 @@
     background-color: #343a40;
     color: white;
   }
+  
+  .text-danger {
+  border: 2px solid red;  /* Red border */
+  background-color: transparent;  /* Transparent background */
+  color: red;  /* Red text color */
+  padding: 8px 16px;  /* Add some padding */
+  border-radius: 5px;  /* Rounded corners */
+  cursor: pointer;  /* Pointer cursor */
+  transition: background-color 0.3s, color 0.3s; /* Smooth transition on hover */
+}
 </style>
     
     
@@ -62,6 +72,7 @@
 
     <!-- CSS Just for demo purpose, don't include it in your project -->
     <link rel="stylesheet" href="Admin/assets/css/demo.css" />
+    
   </head>
   <body>
    <div class="wrapper">
@@ -215,93 +226,51 @@
           </div>
           <!-- Navbar Header -->
           <nav
-          class="navbar navbar-header navbar-header-transparent navbar-expand-lg border-bottom"
-        >
-          <div class="container-fluid">
-            <nav
-              class="navbar navbar-header-left navbar-expand-lg navbar-form nav-search p-0 d-none d-lg-flex"
-            >
-              <div class="input-group">
-                <div class="input-group-prepend">
-                  <button type="submit" class="btn btn-search pe-1">
-                    <i class="fa fa-search search-icon"></i>
-                  </button>
-                </div>
-                <input
-                  type="text"
-                  placeholder="Search ..."
-                  class="form-control"
-                />
-              </div>
-            </nav>
-
-            <ul class="navbar-nav topbar-nav ms-md-auto align-items-center">
-              <li
-                class="nav-item topbar-icon dropdown hidden-caret d-flex d-lg-none"
+            class="navbar navbar-header navbar-header-transparent navbar-expand-lg border-bottom"
+          >
+            <div class="container-fluid">
+              <nav
+                class="navbar navbar-header-left navbar-expand-lg navbar-form nav-search p-0 d-none d-lg-flex"
               >
-                <a
-                  class="nav-link dropdown-toggle"
-                  data-bs-toggle="dropdown"
-                  href="#"
-                  role="button"
-                  aria-expanded="false"
-                  aria-haspopup="true"
-                >
-                  <i class="fa fa-search"></i>
-                </a>
-                <ul class="dropdown-menu dropdown-search animated fadeIn">
-                  <form class="navbar-left navbar-form nav-search">
-                    <div class="input-group">
-                      <input
-                        type="text"
-                        placeholder="Search ..."
-                        class="form-control"
-                      />
-                    </div>
-                  </form>
-                </ul>
-              </li>
-              <li class="nav-item topbar-icon dropdown hidden-caret">
-                <a
-                  class="nav-link dropdown-toggle"
-                  href="#"
-                  id="messageDropdown"
-                  role="button"
-                  data-bs-toggle="dropdown"
-                  aria-haspopup="true"
-                  aria-expanded="false"
-                >
-                  <i class="fa fa-envelope"></i>
-                </a>
-                <li class="nav-item topbar-user dropdown hidden-caret">
-                  <a
-                    class="dropdown-toggle profile-pic"
-                    data-bs-toggle="dropdown"
-                    href="#"
-                    aria-expanded="false"
-                  >
-                    <div class="avatar-sm">
-                      <img
-                        src="https://res.cloudinary.com/deup6t83x/image/upload/v1725000463/admin_pic_sencpk.webp"
-                        alt="Profile Picture"
-                        class="avatar-img rounded-circle"
-                      />
-                    </div>
-                    <span class="profile-username">
-                      <span class="op-7">Hi,</span>
-                      <span class="fw-bold">Rahila</span>
-                    </span>
-                  </a>
-                  <ul class="dropdown-menu dropdown-user animated fadeIn">
-                    <li>
-                      <a class="dropdown-item" href="#">Logout</a>
-                    </li>
-                  </ul>
-                </li>
                 
-            </ul>
-          </div>
-        </nav>
+              </nav>
+
+              <ul class="navbar-nav topbar-nav ms-md-auto align-items-center">
+                
+                <li class="nav-item topbar-icon dropdown hidden-caret">
+                  <a
+                    href="https://mail.google.com/mail/u/0/?tab=rm&ogbl#inbox " target="_blank"
+                  >
+                    <i class="fa fa-envelope"></i>
+                  </a>
+                  <li class="nav-item topbar-user dropdown hidden-caret">
+                    <a
+                      class="dropdown-toggle profile-pic"
+                      data-bs-toggle="dropdown"
+                      href="#"
+                      aria-expanded="false"
+                    >
+                      <div class="avatar-sm">
+                        <img
+                          src="https://res.cloudinary.com/deup6t83x/image/upload/v1725000463/admin_pic_sencpk.webp"
+                          alt="Profile Picture"
+                          class="avatar-img rounded-circle"
+                        />
+                      </div>
+                      <span class="profile-username">
+                        <span class="fw-bold">Fit4Life</span>
+                      </span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-user animated fadeIn">
+                      <li>
+                        <a class="dropdown-item"  onclick="logout()" href="#">Logout</a>
+                      </li>
+                    </ul>
+                  </li>
+
+              </ul>
+            </div>
+          </nav>
           <!-- End Navbar -->
         </div>
 
@@ -391,10 +360,10 @@ function fetchWorkouts() {
             <td><textarea readonly class="form-control">${workout.breathingTips}</textarea></td>
 
             <td>
-              <a href="/workouts/update/${workout.workoutId}" class="text-success me-3">
-                <i class="fas fa-edit"></i></a>
+              <!--a href="/workouts/update/${workout.workoutId}" class="text-success me-3">
+                <i class="fas fa-edit"></i></a-->
               <a class="text-danger" onclick="deleteWorkout(${workout.workoutId})" style="padding-top:10px;">
-                <i class="fas fa-trash-alt"></i></a>
+                <i class="fas fa-trash-alt">Delete</i></a>
             </td>
           </tr>
         `;
@@ -473,6 +442,12 @@ function fetchWorkouts() {
     <script src="Admin/assets/js/kaiadmin.min.js"></script>
     <!-- Kaiadmin DEMO methods, don't include it in your project! -->
     <script src="Admin/assets/js/setting-demo2.js"></script>
+    <script>
+    function logout() {
+        localStorage.removeItem('authToken'); 
+        window.location.href = 'index'; 
+    }
+</script>
     
   </body>
 </html>

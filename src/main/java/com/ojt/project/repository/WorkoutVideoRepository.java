@@ -11,6 +11,8 @@ import java.util.List;
 
 @Repository
 public interface WorkoutVideoRepository extends JpaRepository<WorkoutVideo, Long> {
+	@Query("SELECT COUNT(w) FROM WorkoutVideo w")
+	long countAllWorkouts();
     @Query("SELECT w FROM WorkoutVideo w WHERE w.workoutCategory = :workoutCategory AND w.workoutType = :workoutType")
     List<WorkoutVideo> findByWorkoutCategoryAndWorkoutType(@Param("workoutCategory") String workoutCategory, @Param("workoutType") String workoutType);
 }

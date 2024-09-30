@@ -204,55 +204,14 @@
               <nav
                 class="navbar navbar-header-left navbar-expand-lg navbar-form nav-search p-0 d-none d-lg-flex"
               >
-                <div class="input-group">
-                  <div class="input-group-prepend">
-                    <button type="submit" class="btn btn-search pe-1">
-                      <i class="fa fa-search search-icon"></i>
-                    </button>
-                  </div>
-                  <input
-                    type="text"
-                    placeholder="Search ..."
-                    class="form-control"
-                  />
-                </div>
+                
               </nav>
 
               <ul class="navbar-nav topbar-nav ms-md-auto align-items-center">
-                <li
-                  class="nav-item topbar-icon dropdown hidden-caret d-flex d-lg-none"
-                >
-                  <a
-                    class="nav-link dropdown-toggle"
-                    data-bs-toggle="dropdown"
-                    href="#"
-                    role="button"
-                    aria-expanded="false"
-                    aria-haspopup="true"
-                  >
-                    <i class="fa fa-search"></i>
-                  </a>
-                  <ul class="dropdown-menu dropdown-search animated fadeIn">
-                    <form class="navbar-left navbar-form nav-search">
-                      <div class="input-group">
-                        <input
-                          type="text"
-                          placeholder="Search ..."
-                          class="form-control"
-                        />
-                      </div>
-                    </form>
-                  </ul>
-                </li>
+                
                 <li class="nav-item topbar-icon dropdown hidden-caret">
                   <a
-                    class="nav-link dropdown-toggle"
-                    href="#"
-                    id="messageDropdown"
-                    role="button"
-                    data-bs-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="false"
+                    href="https://mail.google.com/mail/u/0/?tab=rm&ogbl#inbox " target="_blank"
                   >
                     <i class="fa fa-envelope"></i>
                   </a>
@@ -271,41 +230,40 @@
                         />
                       </div>
                       <span class="profile-username">
-                        <span class="op-7">Hi,</span>
-                        <span class="fw-bold">Rahila</span>
+                        <span class="fw-bold">Fit4Life</span>
                       </span>
                     </a>
                     <ul class="dropdown-menu dropdown-user animated fadeIn">
                       <li>
-                        <a class="dropdown-item" href="#">Logout</a>
+                        <a class="dropdown-item"  onclick="logout()" href="#">Logout</a>
                       </li>
                     </ul>
                   </li>
-                  
+
               </ul>
             </div>
           </nav>
           <!-- End Navbar -->
         </div>
-<!--    Form section  -->
-<div class="container">
-  <div class="page-inner">
-    <div class="page-header">
-      <h3 class="fw-bold mb-3">Add user Form</h3>
-      <ul class="breadcrumbs mb-3">
-        <li class="nav-home">
-          <a href="#">
-            <i class="icon-home"></i>
-          </a>
-        </li>
-        <li class="separator">
-          <i class="icon-arrow-right"></i>
-        </li>
-        <li class="nav-item">
-          <a href="#">Add user</a>
-        </li> 
-      </ul>
-    </div>
+		<!--    Form section  -->
+		<div class="container">
+		  <div class="page-inner">
+		    <div class="page-header">
+		      <h3 class="fw-bold mb-3">Add user Form</h3>
+		      <ul class="breadcrumbs mb-3">
+		        <li class="nav-home">
+		          <a href="#">
+		            <i class="icon-home"></i>
+		          </a>
+		        </li>
+		        <li class="separator">
+		          <i class="icon-arrow-right"></i>
+		        </li>
+		        <li class="nav-item">
+		          <a href="#">Add user</a>
+		        </li> 
+		      </ul>
+		    </div>
             <div class="row">
               <div class="col-md-12">
                 <div class="card">
@@ -520,6 +478,11 @@
     }
   });
 </script>
-
+<script>
+    function logout() {
+        localStorage.removeItem('authToken'); 
+        window.location.href = 'index'; 
+    }
+</script>
   </body>
 </html>

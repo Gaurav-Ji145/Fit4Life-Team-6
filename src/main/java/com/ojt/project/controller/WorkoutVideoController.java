@@ -63,4 +63,10 @@ public class WorkoutVideoController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Workout not found.");
         }
     }
+    
+    @GetMapping("/count")
+    public ResponseEntity<Long> getWorkoutCount() {
+        long workoutCount = workoutService.countAllWorkouts();
+        return new ResponseEntity<>(workoutCount, HttpStatus.OK);
+    }
 }

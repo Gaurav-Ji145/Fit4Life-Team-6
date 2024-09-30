@@ -48,4 +48,11 @@ public class ContactController {
     public ResponseEntity<String> handleException(Exception e) {
         return new ResponseEntity<>("An error occurred: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
+    
+ // Count All Messages
+    @GetMapping("/messages/count")
+    public ResponseEntity<Long> countMessages() {
+        long messageCount = contactService.countMessages();
+        return new ResponseEntity<>(messageCount, HttpStatus.OK);
+    }
 }

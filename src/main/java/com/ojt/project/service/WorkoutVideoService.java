@@ -20,4 +20,6 @@ public interface WorkoutVideoService {
 
     // Delete a workout
     void deleteWorkout(Long id);
+    
+    long countAllWorkouts();
 }

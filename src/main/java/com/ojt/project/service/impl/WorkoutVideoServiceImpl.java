@@ -50,4 +50,9 @@ public class WorkoutVideoServiceImpl implements WorkoutVideoService {
     public void deleteWorkout(Long id) {
         workoutRepository.deleteById(id);
     }
+    
+    @Override
+    public long countAllWorkouts() {
+        return workoutRepository.countAllWorkouts();
+    }
 }

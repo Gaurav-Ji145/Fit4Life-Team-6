@@ -306,69 +306,46 @@ p {
             >
             
             <div class="row">
-              <div class="col-sm-6 col-md-3">
-                <div class="card card-stats card-round">
-                  <div class="card-body">
-                    <div class="row align-items-center">
-                      <div class="col-icon">
-                        <div
-                          class="icon-big text-center icon-primary bubble-shadow-small"
-                        >
-                        <i class="fa-solid fa-person-running"></i>
-                        </div>
-                      </div>
-                      <div class="col col-stats ms-3 ms-sm-0">
-                        <div class="numbers">
-                          <p class="card-category">WorkOuts</p>
-                          <h4 class="card-title">000</h4>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-sm-6 col-md-3">
-                <div class="card card-stats card-round">
-                  <div class="card-body">
-                    <div class="row align-items-center">
-                      <div class="col-icon">
-                        <div
-                          class="icon-big text-center icon-info bubble-shadow-small"
-                        >
-                          <i class="fas fa-user-check"></i>
-                        </div>
-                      </div>
-                      <div class="col col-stats ms-3 ms-sm-0">
-                        <div class="numbers">
-                          <p class="card-category">Users</p>
-                          <h4 class="card-title">0000</h4>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-sm-6 col-md-3">
-                <div class="card card-stats card-round">
-                  <div class="card-body">
-                    <div class="row align-items-center">
-                      <div class="col-icon">
-                        <div
-                          class="icon-big text-center icon-success bubble-shadow-small"
-                        >
-                        <i class="fa-regular fa-message"></i>
-                        </div>
-                      </div>
-                      <div class="col col-stats ms-3 ms-sm-0">
-                        <div class="numbers">
-                          <p class="card-category">Message</p>
-                          <h4 class="card-title">0000</h4>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <div class="col-sm-6 col-md-6"> <!-- Changed from col-md-3 to col-md-4 -->
+			    <div class="card card-stats card-round">
+			        <div class="card-body">
+			            <div class="row align-items-center justify-content-center"> <!-- Added justify-content-center -->
+			                <div class="col-icon text-center"> <!-- Added text-center class -->
+			                    <div class="icon-big text-center icon-primary bubble-shadow-small">
+			                        <i class="fa-solid fa-person-running"></i>
+			                    </div>
+			                </div>
+			                <div class="col col-stats ms-3 ms-sm-0 text-center"> <!-- Added text-center class -->
+			                    <div class="numbers">
+			                        <p class="card-category">WorkOuts</p>
+			                        <h4 class="card-title" id="workoutCount">0</h4>
+			                    </div>
+			                </div>
+			            </div>
+			        </div>
+			    </div>
+			</div>
+			
+			
+			<div class="col-sm-6 col-md-6"> <!-- Changed from col-md-3 to col-md-4 -->
+			    <div class="card card-stats card-round">
+			        <div class="card-body">
+			            <div class="row align-items-center justify-content-center"> <!-- Added justify-content-center -->
+			                <div class="col-icon text-center"> <!-- Added text-center class -->
+			                    <div class="icon-big text-center icon-success bubble-shadow-small">
+			                        <i class="fa-regular fa-message"></i>
+			                    </div>
+			                </div>
+			                <div class="col col-stats ms-3 ms-sm-0 text-center"> <!-- Added text-center class -->
+			                    <div class="numbers">
+			                        <p class="card-category">Messages</p>
+			                        <h4 class="card-title" id="messageCount">0</h4> <!-- Placeholder for message count -->
+			                    </div>
+			                </div>
+			            </div>
+			        </div>
+			    </div>
+			</div>
               
               <div class="card card-round">
                 <div class="card-body pb-0">
@@ -449,6 +426,31 @@ p {
         localStorage.removeItem('authToken'); 
         window.location.href = 'index'; 
     }
+</script>
+<script>
+// Function to fetch workout count from the server
+function fetchWorkoutCount() {
+    fetch('/workouts/count')
+        .then(response => response.json())
+        .then(count => {
+            document.getElementById('workoutCount').innerText = count;
+        })
+        .catch(error => console.error('Error fetching workout count:', error));
+}
+
+// Function to fetch message count from the server
+function fetchMessageCount() {
+    fetch('/api/messages/count') // Ensure this matches the controller endpoint
+        .then(response => response.json())
+        .then(count => {
+            document.getElementById('messageCount').innerText = count; // Update the message count display
+        })
+        .catch(error => console.error('Error fetching message count:', error));
+}
+
+// Add event listeners for the page load
+window.addEventListener('load', fetchWorkoutCount);
+window.addEventListener('load', fetchMessageCount);
 </script>
 </body>
 </html>

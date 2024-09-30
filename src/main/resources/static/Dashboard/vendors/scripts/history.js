@@ -107,6 +107,17 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
+    // Update the current month and re-render the calendar when navigating
+    prevButton.addEventListener('click', function () {
+        currentDate.setMonth(currentDate.getMonth() - 1); // Move to the previous month
+        renderCalendar(currentDate, videoHistory);
+    });
+
+    nextButton.addEventListener('click', function () {
+        currentDate.setMonth(currentDate.getMonth() + 1); // Move to the next month
+        renderCalendar(currentDate, videoHistory);
+    });
+
     // Listen for workout data updates and refresh the table
     window.addEventListener('workoutDataUpdated', function (event) {
         const { date } = event.detail;
@@ -115,8 +126,9 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // Initial render
-    fetchAttendanceData().then(videoHistory => {
-        const formattedHistory = videoHistory.reduce((acc, record) => {
+    let videoHistory = {};
+    fetchAttendanceData().then(data => {
+        videoHistory = data.reduce((acc, record) => {
             if (!acc[record.date]) {
                 acc[record.date] = [];
             }
@@ -124,7 +136,7 @@ document.addEventListener('DOMContentLoaded', function () {
             return acc;
         }, {});
 
-        renderCalendar(currentDate, formattedHistory);
-        populateSummaryTable(new Date().toISOString().split('T')[0], formattedHistory);
+        renderCalendar(currentDate, videoHistory);
+        populateSummaryTable(new Date().toISOString().split('T')[0], videoHistory);
     }).catch(error => console.error('Error fetching attendance data:', error));
 });

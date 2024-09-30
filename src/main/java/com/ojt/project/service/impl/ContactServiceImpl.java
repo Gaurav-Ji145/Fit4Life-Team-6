@@ -32,4 +32,9 @@ public class ContactServiceImpl implements ContactService {
     public void deleteContactFormById(Long id) {
         contactFormRepository.deleteById(id);   // Delete contact form by ID
     }
+    
+    @Override
+    public long countMessages() {
+        return contactFormRepository.countAllMessages(); // Count all messages
+    }
 }
